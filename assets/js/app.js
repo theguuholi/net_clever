@@ -17,9 +17,53 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import topbar from "topbar"
 import {LiveSocket} from "phoenix_live_view"
+import StoreMap from "./store-map";
+
+let Hooks = {};
+
+Hooks.StoreMap = {
+    mounted() {
+        this.map = new StoreMap(this.el, [-22.74639202136818, -47.34120244169937], event => {
+            const storeId = event.target.options.storeId;
+            // this.pushEvent("store-clicked", storeId)
+            this.pushEvent("store-clicked", storeId, (reply, ref) => {
+                // liveSocket.enableLatencySim(5000)
+                // liveSocket.disableLatencySim
+                this.scrollTo(reply.store.id);
+            })
+            // this.scrollTo(storeId);
+
+        });
+
+
+        this.pushEvent("get-incidents", {}, (reply, ref) => {
+            reply.stores.forEach(store => {
+                this.map.addMarker(store)
+            })
+        })
+        // const stores = JSON.parse(this.el.dataset.stores);
+        // stores.forEach(store => {
+        //     this.map.addMarker(store);
+        // })
+
+        this.handleEvent("highlight-marker", store => {
+            this.map.highlightMarker(store)
+        })
+        this.handleEvent("add-marker", store => {
+            this.map.addMarker(store)
+            this.map.highlightMarker(store)
+            this.scrollTo(store.id)
+        })
+    },
+    scrollTo(storeId){
+        const storeElement = document.querySelector(`[phx-value-id="${storeId}"]`)
+        storeElement.scrollIntoView(false);
+    }
+}
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
+let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken},     hooks: Hooks
+})
 
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})

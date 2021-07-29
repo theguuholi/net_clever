@@ -1,0 +1,22 @@
+<div class="row" id="mapping">
+  <ul class="collection col s4 m4">
+    <%= for store <- @stores do %>
+    <li class="collection-item <%= if @selected_store == store, do: "active" %>">
+      <a href="#" phx-click="select-store"
+        phx-value-id="<%= store.id %>">
+        <%= store.name %>
+      </a>
+    </li>
+    <% end %>
+  </ul>
+
+
+  <div class="main col s8 m8">
+    <div class="wrapper" phx-update="ignore">
+      <%# <div id="map" phx-hook="StoreMap" data-stores="<%= Jason.encode!(@stores) %>
+      <%# </div> %>
+      <div id="map" phx-hook="StoreMap"></div>
+    </div>
+  </div>
+
+</div>

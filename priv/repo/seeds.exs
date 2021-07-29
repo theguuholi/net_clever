@@ -1,11 +1,6 @@
-# Script for populating the database. You can run it as:
-#
-#     mix run priv/repo/seeds.exs
-#
-# Inside the script, you can read and write to any of your
-# repositories directly:
-#
-#     NetClever.Repo.insert!(%NetClever.SomeSchema{})
-#
-# We recommend using the bang functions (`insert!`, `update!`
-# and so on) as they will fail if something goes wrong.
+NetClever.Stores.create_store(%{
+  name: "Lagoinha",
+  description: "a place for new beginning",
+  lat: -22.74639202136818,
+  lng: -47.34120244169937
+})
