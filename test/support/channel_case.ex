@@ -16,6 +16,7 @@ defmodule NetCleverWeb.ChannelCase do
   """
 
   use ExUnit.CaseTemplate
+  alias Ecto.Adapters.SQL.Sandbox
 
   using do
     quote do
@@ -29,10 +30,10 @@ defmodule NetCleverWeb.ChannelCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(NetClever.Repo)
+    :ok = Sandbox.checkout(NetClever.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(NetClever.Repo, {:shared, self()})
+      Sandbox.mode(NetClever.Repo, {:shared, self()})
     end
 
     :ok

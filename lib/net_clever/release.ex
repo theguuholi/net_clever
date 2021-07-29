@@ -21,3 +21,4 @@ defmodule NetClever.Release do
   defp load_app do
     Application.load(@app)
   end
+end

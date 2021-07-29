@@ -37,6 +37,6 @@ defmodule NetCleverWeb.Router do
       live_dashboard "/dashboard", metrics: NetCleverWeb.Telemetry
     end
   end
-  # coveralls-ignore-stop
 
+  # coveralls-ignore-stop
 end
