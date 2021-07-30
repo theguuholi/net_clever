@@ -4,8 +4,8 @@ defmodule NetClever.Accounts do
   """
 
   import Ecto.Query, warn: false
+  alias NetClever.Accounts.{User, UserNotifier, UserToken}
   alias NetClever.Repo
-  alias NetClever.Accounts.{User, UserToken, UserNotifier}
 
   ## Database getters
 
