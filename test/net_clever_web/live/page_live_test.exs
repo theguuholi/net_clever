@@ -5,7 +5,7 @@ defmodule NetCleverWeb.PageLiveTest do
 
   test "disconnected and connected render", %{conn: conn} do
     {:ok, page_live, disconnected_html} = live(conn, "/")
-    assert disconnected_html =~ "a"
-    assert render(page_live) =~ "a"
+    assert disconnected_html =~ "Lagoinha"
+    assert render(page_live) =~ "Lagoinha"
   end
 end
