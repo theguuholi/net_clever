@@ -2,8 +2,11 @@ defmodule NetClever.Stores.Store do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @required_fields [:name, :description, :lat, :lng, :phone]
+  @optional_fields [:photos_url]
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
+  @derive {Jason.Encoder, only: [:id, :name, :description, :lat, :lng]}
   schema "stores" do
     field :description, :string
     field :lat, :float
@@ -19,7 +22,7 @@ defmodule NetClever.Stores.Store do
   @doc false
   def changeset(store, attrs) do
     store
-    |> cast(attrs, [:name, :description, :lat, :lng, :phone, :photos_url])
-    |> validate_required([:name, :description, :lat, :lng, :phone, :photos_url])
+    |> cast(attrs, @optional_fields ++ @required_fields)
+    |> validate_required(@required_fields)
   end
 end

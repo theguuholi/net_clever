@@ -8,96 +8,40 @@ defmodule NetClever.Stores do
 
   alias NetClever.Stores.Store
 
-  @doc """
-  Returns the list of stores.
-
-  ## Examples
-
-      iex> list_stores()
-      [%Store{}, ...]
-
-  """
   def list_stores do
     Repo.all(Store)
   end
 
-  @doc """
-  Gets a single store.
-
-  Raises `Ecto.NoResultsError` if the Store does not exist.
-
-  ## Examples
-
-      iex> get_store!(123)
-      %Store{}
-
-      iex> get_store!(456)
-      ** (Ecto.NoResultsError)
-
-  """
   def get_store!(id), do: Repo.get!(Store, id)
 
-  @doc """
-  Creates a store.
-
-  ## Examples
-
-      iex> create_store(%{field: value})
-      {:ok, %Store{}}
-
-      iex> create_store(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
   def create_store(attrs \\ %{}) do
     %Store{}
     |> Store.changeset(attrs)
     |> Repo.insert()
+    |> broadcast(:store_created)
   end
 
-  @doc """
-  Updates a store.
+  def subscribe do
+    Phoenix.PubSub.subscribe(NetClever.PubSub, "stores")
+  end
 
-  ## Examples
+  def broadcast({:error, _} = error, _event), do: error
 
-      iex> update_store(store, %{field: new_value})
-      {:ok, %Store{}}
+  def broadcast({:ok, store}, event) do
+    Phoenix.PubSub.broadcast(NetClever.PubSub, "stores", {event, store})
+    {:ok, store}
+  end
 
-      iex> update_store(store, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
   def update_store(%Store{} = store, attrs) do
     store
     |> Store.changeset(attrs)
     |> Repo.update()
   end
 
-  @doc """
-  Deletes a store.
-
-  ## Examples
-
-      iex> delete_store(store)
-      {:ok, %Store{}}
-
-      iex> delete_store(store)
-      {:error, %Ecto.Changeset{}}
-
-  """
   def delete_store(%Store{} = store) do
     Repo.delete(store)
   end
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking store changes.
-
-  ## Examples
-
-      iex> change_store(store)
-      %Ecto.Changeset{data: %Store{}}
-
-  """
   def change_store(%Store{} = store, attrs \\ %{}) do
     Store.changeset(store, attrs)
   end
