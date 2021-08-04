@@ -1,9 +1,10 @@
 defmodule NetCleverWeb.PageLive do
   use NetCleverWeb, :live_view
+  alias NetClever.Stores
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok, assign(socket, stores: Stores.list_stores())}
   end
 
   @impl true

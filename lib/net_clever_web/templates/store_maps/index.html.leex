@@ -1,0 +1,18 @@
+<div id="mapping">
+  <div class="sidenav">
+    <%= for store <- @stores do %>
+    <a href="#" class="store <%= if @selected_store == store, do: 'selected' %>" phx-click="select-store"
+      phx-value-id="<%= store.id %>">
+      <%= store.description %>
+    </a>
+    <% end %>
+  </div>
+
+
+  <div class="main">
+    <div class="wrapper" phx-update="ignore">
+      <div id="map" phx-hook="StoreMap" data-stores="<%= Jason.encode!(@stores) %>"></div>
+    </div>
+  </div>
+
+</div>

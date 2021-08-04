@@ -1,27 +1,42 @@
   <div class="row">
 
-      <%= for n <- 1..10 do %>
+      <%= for store <- @stores do %>
       <div class="col s12 m6">
           <div class="card">
               <div class="card-image">
                   <img src="https://materializecss.com/images/sample-1.jpg">
-                  <span class="card-title">Lagoinha <%= n %></span>
-                  <a class="btn-floating activator halfway-fab waves-effect waves-light  teal darken-4"><i
-                          class="material-icons">phone</i></a>
+                  <span class="card-title"><%= store.name %></span>
+                  <a class="btn-floating activator halfway-fab waves-effect waves-light  blue"><i
+                          class="material-icons">info_outline</i></a>
               </div>
+
               <div class="card-content">
-                  <p>I am a very simple card.
-                      I am good at containing small bits of information.
-                      I am convenient because
-                      I require little markup to use effectively.</p>
+                  <p><%= store.description %></p>
               </div>
               <div class="card-reveal">
-                  <span class="card-title grey-text text-darken-4">Card Title<i
+                  <span class="card-title grey-text text-darken-4"><%= store.name %><i
                           class="material-icons right">close</i></span>
-                  <p>Here is some more information about this product that is only
-                      revealed once clicked on.</p>
+                  <p>
+                      <ul class="collection ">
+                          <li class="collection-item">
+                              <div>Whatsapp: <strong><%= store.phone %></strong>
+                                  <a href="https://api.whatsapp.com/send?phone=<%= store.phone %>&text=Ola%20conheci%20seu%20negocio%20pela%20igreja%20lagoinha,%20pode%20me%20passar%20mais%20informa%C3%A7%C3%B5es?" target="_blank" class="secondary-content">
+                                      <i class="material-icons">phone</i>
+                                  </a>
+                              </div>
+                          </li>
+                          <li class="collection-item">
+                              <div>Ir no mapa:
+                                  <a href="" class="secondary-content">
+                                      <i class="material-icons">map</i>
+                                  </a>
+                              </div>
+                          </li>
+                      </ul>
+                  </p>
               </div>
           </div>
+
       </div>
       <% end %>
   </div>

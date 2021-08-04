@@ -5,7 +5,7 @@ defmodule NetClever.Repo.Migrations.CreateStores do
     create table(:stores, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :name, :string
-      add :description, :string
+      add :description, :text
       add :lat, :float
       add :lng, :float
       add :phone, :string
