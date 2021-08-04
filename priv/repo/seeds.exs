@@ -1,7 +1,6 @@
 NetClever.Stores.create_store(%{
   name: "Lagoinha",
-  description:
-    "Um lugar para todos, crianças,
+  description: "Um lugar para todos, crianças,
         adolescentes, jovens,
         adultos e idosos. Todas as “tribos” se unem aqui.
         Queremos como igreja estar sempre perto de cada membro.
