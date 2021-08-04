@@ -14,6 +14,11 @@ defmodule NetCleverWeb.StoreMapsLive do
     Phoenix.View.render(NetCleverWeb.StoreMapsView, "index.html", assigns)
   end
 
+  defp get_store(socket, id) do
+    Enum.find(socket.assigns.stores, &(&1.id == id))
+  end
+
+  @impl true
   def handle_info({:store_created, store}, socket) do
     socket =
       socket
@@ -22,5 +27,24 @@ defmodule NetCleverWeb.StoreMapsLive do
       |> push_event("add-marker", store)
 
     {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("select-store", %{"id" => id}, socket) do
+    store = get_store(socket, id)
+    params = [selected_store: store]
+
+    socket =
+      socket
+      |> assign(params)
+      |> push_event("highlight-marker", store)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("store-clicked", store_id, socket) do
+    store = get_store(socket, store_id)
+    {:noreply, assign(socket, selected_store: store)}
   end
 end

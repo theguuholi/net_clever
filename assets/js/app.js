@@ -14,15 +14,58 @@ import "../node_modules/materialize-css/dist/js/materialize"
 //     import socket from "./socket"
 //
 import "phoenix_html"
-import {Socket} from "phoenix"
+import {
+    Socket
+} from "phoenix"
 import topbar from "topbar"
-import {LiveSocket} from "phoenix_live_view"
+import {
+    LiveSocket
+} from "phoenix_live_view"
+import StoreMap from "./store-map";
+
+let Hooks = {};
+
+
+Hooks.StoreMap = {
+    mounted() {
+        this.map = new StoreMap(this.el, [-22.74639202136818, -47.34120244169937], event => {
+            console.log("abc!!!!")
+            console.log(event.target.options.storeId)
+            const storeId = event.target.options.storeId;
+            this.pushEvent("store-clicked", storeId)
+        });
+
+        const stores = JSON.parse(this.el.dataset.stores);
+        stores.forEach(store => {
+            this.map.addMarker(store);
+        })
+
+        this.handleEvent("highlight-marker", store => {
+            this.map.highlightMarker(store)
+        })
+        this.handleEvent("add-marker", store => {
+            this.map.addMarker(store)
+            this.map.highlightMarker(store)
+        })
+    }
+}
+
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
+let liveSocket = new LiveSocket("/live", Socket, {
+    params: {
+        _csrf_token: csrfToken
+    },
+    hooks: Hooks
+})
 
 // Show progress bar on live navigation and form submits
-topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
+topbar.config({
+    barColors: {
+        0: "#29d"
+    },
+    shadowColor: "rgba(0, 0, 0, .3)"
+})
 window.addEventListener("phx:page-loading-start", info => topbar.show())
 window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 
@@ -34,4 +77,3 @@ liveSocket.connect()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
-

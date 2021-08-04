@@ -1,18 +1,22 @@
-<div id="mapping">
-  <div class="sidenav">
-    <%= for store <- @stores do %>
-    <a href="#" class="store <%= if @selected_store == store, do: 'selected' %>" phx-click="select-store"
-      phx-value-id="<%= store.id %>">
-      <%= store.description %>
-    </a>
-    <% end %>
-  </div>
-
-
-  <div class="main">
-    <div class="wrapper" phx-update="ignore">
-      <div id="map" phx-hook="StoreMap" data-stores="<%= Jason.encode!(@stores) %>"></div>
+  <div class="row">
+    <div class="col s2" id="mapping">
+      <ul>
+        <%= for store <- @stores do %>
+        <li>
+          <a href="#" class="store <%= if @selected_store == store, do: 'selected' %>" phx-click="select-store"
+            phx-value-id="<%= store.id %>">
+            <%= store.name %>
+          </a>
+        </li>
+        <% end %>
+      </ul>
     </div>
-  </div>
 
-</div>
+
+    <div class="main col s10">
+      <div class="wrapper" phx-update="ignore">
+        <div id="map" phx-hook="StoreMap" data-stores="<%= Jason.encode!(@stores) %>"></div>
+      </div>
+    </div>
+
+  </div>

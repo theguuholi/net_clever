@@ -2,6 +2,11 @@
 // @import "./phoenix.css";
 @import "../node_modules/materialize-css/dist/css/materialize.css";
 
+#map {
+  height: 600px;
+  width: 100%;
+}
+
 /* LiveView specific classes for your customizations */
 .phx-no-feedback.invalid-feedback,
 .phx-no-feedback .invalid-feedback {
