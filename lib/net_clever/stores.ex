@@ -13,6 +13,7 @@ defmodule NetClever.Stores do
   end
 
   def get_store!(id), do: Repo.get!(Store, id)
+  def get_store(id), do: Repo.get(Store, id)
 
   def create_store(attrs \\ %{}) do
     %Store{}

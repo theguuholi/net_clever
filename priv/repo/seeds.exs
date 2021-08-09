@@ -11,3 +11,11 @@ NetClever.Stores.create_store(%{
   lng: -47.34120244169937,
   phone: "5519974039477"
 })
+
+NetClever.Stores.create_store(%{
+  name: "Business 2",
+  description: "lorem ipsum",
+  lat: -22.64639202136818,
+  lng: -47.24120244169937,
+  phone: "5519974039477"
+})

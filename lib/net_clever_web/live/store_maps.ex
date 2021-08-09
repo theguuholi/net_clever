@@ -5,8 +5,30 @@ defmodule NetCleverWeb.StoreMapsLive do
   @impl true
   def mount(_params, _session, socket) do
     if connected?(socket), do: Stores.subscribe()
-    socket = assign(socket, stores: Stores.list_stores(), selected_store: nil)
     {:ok, socket}
+  end
+
+  @impl true
+  def handle_params(params, _, socket) do
+    {:noreply, select_store(socket, params["selected_store"])}
+  end
+
+  defp select_store(socket, nil) do
+    assign(socket,
+      stores: Stores.list_stores(),
+      selected_store: nil
+    )
+  end
+
+  defp select_store(socket, selected_store) do
+    selected_store = Stores.get_store(selected_store)
+
+    socket
+    |> assign(
+      stores: Stores.list_stores(),
+      selected_store: selected_store
+    )
+    |> push_event("highlight-marker", selected_store)
   end
 
   @impl true
