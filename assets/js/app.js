@@ -26,6 +26,28 @@ import StoreMap from "./store-map";
 let Hooks = {};
 
 
+Hooks.ScrollStores = {
+    mounted(){
+        console.log("mounted", this.el)
+        this.observer = new IntersectionObserver(entries => {
+            console.log(entries)
+            const entry = entries[0];
+            if(entry.isIntersecting){
+                // console.log("visible")
+                this.pushEvent("load-stores", {})
+            }
+        })
+        this.observer.observe(this.el)
+    },
+    updated(){
+        const pageNumber = this.el.dataset.pageNumber;
+        console.log("updated", pageNumber)
+    },
+    destroyed(){
+        this.observer.disconnect();
+    }
+}
+
 Hooks.StoreMap = {
     mounted() {
         this.map = new StoreMap(this.el, [-22.74639202136818, -47.34120244169937], event => {

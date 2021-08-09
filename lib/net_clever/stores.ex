@@ -8,8 +8,16 @@ defmodule NetClever.Stores do
 
   alias NetClever.Stores.Store
 
-  def list_stores do
+  def list_stores() do
     Repo.all(Store)
+  end
+
+  def list_stores(page: page, per_page: per_page) do
+    Store
+    |> offset(^((page - 1) * per_page))
+    |> limit(^per_page)
+    |> order_by([{:desc, :inserted_at}])
+    |> Repo.all()
   end
 
   def get_store!(id), do: Repo.get!(Store, id)

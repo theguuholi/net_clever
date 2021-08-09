@@ -19,3 +19,43 @@ NetClever.Stores.create_store(%{
   lng: -47.24120244169937,
   phone: "5519974039477"
 })
+
+NetClever.Stores.create_store(%{
+  name: "Business 2",
+  description: "lorem ipsum",
+  lat: -22.63639202136818,
+  lng: -47.23120244169937,
+  phone: "5519974039477"
+})
+
+NetClever.Stores.create_store(%{
+  name: "Business 2",
+  description: "lorem ipsum",
+  lat: -22.63539202136818,
+  lng: -47.23020244169937,
+  phone: "5519974039477"
+})
+
+NetClever.Stores.create_store(%{
+  name: "Business 2",
+  description: "lorem ipsum",
+  lat: -22.63439202136818,
+  lng: -47.22920244169937,
+  phone: "5519974039477"
+})
+
+NetClever.Stores.create_store(%{
+  name: "Business 2",
+  description: "lorem ipsum",
+  lat: -22.63339202136818,
+  lng: -47.22820244169937,
+  phone: "5519974039477"
+})
+
+NetClever.Stores.create_store(%{
+  name: "Business 2",
+  description: "lorem ipsum",
+  lat: -22.63239202136818,
+  lng: -47.22720244169937,
+  phone: "5519974039477"
+})
