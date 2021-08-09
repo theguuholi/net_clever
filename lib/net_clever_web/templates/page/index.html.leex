@@ -1,6 +1,5 @@
-  <div class="row">
-
-      <%= for store <- @stores do %>
-        <%= live_component NetCleverWeb.Page.StoreComponent, store: store %>
-      <% end %>
-  </div>
+<div class="row">
+    <%= for store <- @stores do %>
+      <%= live_component NetCleverWeb.Page.StoreComponent, store: store %>
+    <% end %>
+</div>
