@@ -6,6 +6,7 @@ defmodule NetCleverWeb.Page.StoreComponentTest do
 
   test "should test a store component" do
     assigns = %{
+      id: "123",
       store: %{
         name: "Test Store Name",
         description: "Test Store Description",
