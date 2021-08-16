@@ -41,6 +41,7 @@ defmodule NetClever.StoresTest do
     test "get_store!/1 returns the store with given id" do
       store = store_fixture()
       assert Stores.get_store!(store.id) == store
+      assert Stores.get_store(store.id) == store
     end
 
     test "create_store/1 with valid data creates a store" do
