@@ -46,7 +46,7 @@ NetClever.Stores.create_store(%{
   lat: -22.63439202136818,
   lng: -47.22920244169937,
   phone: "5519974039477",
-  active: true
+  active: false
 })
 
 NetClever.Stores.create_store(%{

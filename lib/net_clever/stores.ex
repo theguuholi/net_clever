@@ -42,6 +42,11 @@ defmodule NetClever.Stores do
     {:ok, store}
   end
 
+  def change_status(id) do
+    store = get_store!(id)
+    update_store(store, %{active: !store.active})
+  end
+
   def update_store(%Store{} = store, attrs) do
     store
     |> Store.changeset(attrs)

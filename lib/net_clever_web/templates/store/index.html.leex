@@ -1,0 +1,52 @@
+<table class="striped highlight centered responsive-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Active</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody id="stores-list" phx-update="append">
+        <%= for store <- @stores do %>
+        <tr id="<%= store.id %>">
+            <td><%= store.name %></td>
+            <td><%= store.phone %></td>
+            <td><%= store.lat %></td>
+            <td><%= store.lng %></td>
+            <td>
+                <a href="#" phx-click="change-availability" phx-value-id="<%= store.id %>" class="chip white-text <%= store.active && "green" || "red" %>">
+                    <%= if store.active do  %>
+                    Ativo
+                    <% else %>
+                    Inativo
+                    <% end %>
+                </a>
+            </td>
+            <td>
+                <a href=""><i class="material-icons">send</i></a>
+                <a href=""><i class="material-icons green-text">edit</i></a>
+                <a href=""><i class="material-icons red-text">delete</i></a>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+
+
+<a class="btn-floating btn-large waves-effect waves-light red right modal-trigger" href="#modal1">
+    <i class="material-icons">add</i>
+</a>
+
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4>Modal Header</h4>
+        <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+</div>
