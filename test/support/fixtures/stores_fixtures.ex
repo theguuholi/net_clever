@@ -11,7 +11,8 @@ defmodule NetClever.StoresFixtures do
             Feitos por todos e para todos. Somos igreja. Somos Lagoinha Global. ",
       lat: -22.74639202136818,
       lng: -47.34120244169937,
-      phone: "5519974039477"
+      phone: "5519974039477",
+      active: true
     })
   end
 end

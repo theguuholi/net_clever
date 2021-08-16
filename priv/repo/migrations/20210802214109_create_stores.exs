@@ -8,6 +8,7 @@ defmodule NetClever.Repo.Migrations.CreateStores do
       add :description, :text
       add :lat, :float
       add :lng, :float
+      add :active, :boolean, default: false
       add :phone, :string
       add :photos_url, {:array, :string}
       add :user_id, references(:users, on_delete: :nothing, type: :binary_id)

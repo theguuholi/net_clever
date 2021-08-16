@@ -16,6 +16,7 @@ defmodule NetClever.Stores do
     Store
     |> offset(^((page - 1) * per_page))
     |> limit(^per_page)
+    |> where([s], s.active == true)
     |> order_by([{:desc, :inserted_at}])
     |> Repo.all()
   end
