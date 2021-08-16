@@ -9,7 +9,8 @@ NetClever.Stores.create_store(%{
         Feitos por todos e para todos. Somos igreja. Somos Lagoinha Global. ",
   lat: -22.74639202136818,
   lng: -47.34120244169937,
-  phone: "5519974039477"
+  phone: "5519974039477",
+  active: true
 })
 
 NetClever.Stores.create_store(%{
@@ -17,7 +18,8 @@ NetClever.Stores.create_store(%{
   description: "lorem ipsum",
   lat: -22.64639202136818,
   lng: -47.24120244169937,
-  phone: "5519974039477"
+  phone: "5519974039477",
+  active: true
 })
 
 NetClever.Stores.create_store(%{
@@ -25,7 +27,8 @@ NetClever.Stores.create_store(%{
   description: "lorem ipsum",
   lat: -22.63639202136818,
   lng: -47.23120244169937,
-  phone: "5519974039477"
+  phone: "5519974039477",
+  active: true
 })
 
 NetClever.Stores.create_store(%{
@@ -33,7 +36,8 @@ NetClever.Stores.create_store(%{
   description: "lorem ipsum",
   lat: -22.63539202136818,
   lng: -47.23020244169937,
-  phone: "5519974039477"
+  phone: "5519974039477",
+  active: true
 })
 
 NetClever.Stores.create_store(%{
@@ -41,7 +45,8 @@ NetClever.Stores.create_store(%{
   description: "lorem ipsum",
   lat: -22.63439202136818,
   lng: -47.22920244169937,
-  phone: "5519974039477"
+  phone: "5519974039477",
+  active: true
 })
 
 NetClever.Stores.create_store(%{
@@ -49,7 +54,8 @@ NetClever.Stores.create_store(%{
   description: "lorem ipsum",
   lat: -22.63339202136818,
   lng: -47.22820244169937,
-  phone: "5519974039477"
+  phone: "5519974039477",
+  active: true
 })
 
 NetClever.Stores.create_store(%{
@@ -57,5 +63,6 @@ NetClever.Stores.create_store(%{
   description: "lorem ipsum",
   lat: -22.63239202136818,
   lng: -47.22720244169937,
-  phone: "5519974039477"
+  phone: "5519974039477",
+  active: true
 })
