@@ -16,14 +16,4 @@ defmodule NetCleverWeb.StoreLive do
   def render(assigns) do
     Phoenix.View.render(NetCleverWeb.StoreView, "index.html", assigns)
   end
-
-  @impl true
-  def handle_event("change-availability", %{"id" => id}, socket) do
-    Stores.change_status(id)
-
-    {:noreply,
-     socket
-     |> put_flash(:info, "Change Store status")
-     |> push_redirect(to: "/stores")}
-  end
 end

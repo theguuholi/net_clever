@@ -1,0 +1,18 @@
+<tr id="<%= @store.id %>">
+    <td><%= @store.name %></td>
+    <td><%= @store.phone %></td>
+    <td><%= @store.lat %></td>
+    <td><%= @store.lng %></td>
+    <td>
+        <a href="#"
+                id="store-<%= @store.id %>-change-visibility"
+                phx-click="change-availability" phx-target="<%= @myself %>"
+                phx-value-id="<%= @store.id %>"
+                class="chip white-text <%= @store.active && "green" || "red" %>"><%= if @store.active do  %>Ativo<% else %>Inativo<% end %></a>
+    </td>
+    <td>
+        <a href=""><i class="material-icons">send</i></a>
+        <a href=""><i class="material-icons green-text">edit</i></a>
+        <a href=""><i class="material-icons red-text">delete</i></a>
+    </td>
+</tr>

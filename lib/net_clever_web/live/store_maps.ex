@@ -65,7 +65,7 @@ defmodule NetCleverWeb.StoreMapsLive do
   end
 
   @impl true
-  def handle_event("store-clicked", store_id, socket) do
+  def handle_event("store-clicked", %{"store_id" => store_id}, socket) do
     store = get_store(socket, store_id)
     {:noreply, assign(socket, selected_store: store)}
   end

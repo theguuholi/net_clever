@@ -4,8 +4,7 @@
       "lib/net_clever/release.ex",
       "lib/net_clever_web.ex",
       "lib/net_clever_web/channels/user_socket.ex",
-      "lib/net_clever_web/views/error_helpers.ex",
-      "lib/net_clever_web/live/page_live.ex",
+      "lib/net_clever_web/views",
       "lib/net_clever_web/telemetry.ex",
       "test/support/channel_case.ex",
       "test/support/data_case.ex"

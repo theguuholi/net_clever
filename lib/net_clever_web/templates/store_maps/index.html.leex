@@ -1,9 +1,9 @@
   <div class="row">
     <div class="col s2" id="mapping">
-      <ul phx-update="append" id="stores-menu">
+      <ul phx-update="append" id="stores-menu" class="collection">
         <%= for store <- @stores do %>
-        <li id="store-<%= store.id %>">
-          <a href="#" class="store <%= if @selected_store == store, do: 'selected' %>" phx-click="select-store"
+        <li id="store-<%= store.id %>" class="collection-item <%= if @selected_store == store, do: 'active' %>" >
+          <a href="#" id="select-store-<%= store.id %>" phx-click="select-store"
             phx-value-id="<%= store.id %>">
             <%= store.name %>
           </a>
