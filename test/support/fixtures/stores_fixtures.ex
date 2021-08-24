@@ -1,5 +1,5 @@
 defmodule NetClever.StoresFixtures do
-  def create_store() do
+  def create_store do
     NetClever.Stores.create_store(%{
       name: "Lagoinha",
       description: "Um lugar para todos, crianças,

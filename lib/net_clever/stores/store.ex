@@ -24,6 +24,6 @@ defmodule NetClever.Stores.Store do
   def changeset(store, attrs) do
     store
     |> cast(attrs, @optional_fields ++ @required_fields)
-    |> validate_required(@required_fields)
+    |> validate_required(@required_fields, message: "preencher o campo acima")
   end
 end

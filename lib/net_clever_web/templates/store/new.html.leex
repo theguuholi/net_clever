@@ -1,0 +1,41 @@
+<div class="row">
+    <%= f = form_for @changeset, "#",
+                id: "new-store-form",
+                phx_submit: "save",
+                phx_change: "validate",
+                class: "col s12" %>
+
+    <div class="row">
+        <div class="input-field col s12">
+            <%= text_input f, :name, class: "validate" %>
+            <%= label f, :name, "Nome da Empresa" %>
+            <%= error_tag f, :name %>
+        </div>
+        <div class="input-field col s12">
+            <%= text_input f, :description, class: "validate" %>
+            <%= label f, :description, "Descreva seu negocio em poucas palavras" %>
+            <%= error_tag f, :description %>
+        </div>
+        <div class="input-field col s12">
+            <%= text_input f, :phone, class: "validate" %>
+            <%= label f, :phone, "Ex: +551999999999" %>
+            <%= error_tag f, :phone %>
+        </div>
+        <div class="input-field col s12">
+            <%= text_input f, :lat, class: "validate" %>
+            <%= label f, :lat, "Latitude" %>
+            <%= error_tag f, :lat %>
+        </div>
+        <div class="input-field col s12">
+            <%= text_input f, :lng, class: "validate" %>
+            <%= label f, :lng, "Longitude" %>
+            <%= error_tag f, :lng %>
+        </div>
+
+        <button class="btn waves-effect waves-light blue right" type="submit" name="action">
+            Cadastrar
+            <i class="material-icons right">send</i>
+        </button>
+        </form>
+    </div>
+</div>

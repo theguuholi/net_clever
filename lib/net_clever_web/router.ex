@@ -18,6 +18,7 @@ defmodule NetCleverWeb.Router do
 
     live "/", PageLive, :index
     live "/stores", StoreLive, :index
+    live "/stores/new", StoreNewLive, :index
     live "/maps", StoreMapsLive, :index
   end
 

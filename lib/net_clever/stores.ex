@@ -8,7 +8,7 @@ defmodule NetClever.Stores do
 
   alias NetClever.Stores.Store
 
-  def list_stores() do
+  def list_stores do
     Repo.all(Store)
   end
 
