@@ -66,3 +66,5 @@ NetClever.Stores.create_store(%{
   phone: "5519974039477",
   active: true
 })
+
+NetClever.Accounts.register_user(%{email: "test@lagoinha", password: "123123123123"})
