@@ -17,6 +17,9 @@
             <p>
                 <ul class="collection ">
                     <li class="collection-item">
+                        Categoria: <strong><%= @store.category %></strong>
+                    </li>
+                    <li class="collection-item">
                         <div>Whatsapp: <strong><%= @store.phone %></strong>
                             <a href="https://api.whatsapp.com/send?phone=<%= @store.phone %>&text=Ola%20conheci%20seu%20negocio%20pela%20igreja%20lagoinha,%20pode%20me%20passar%20mais%20informa%C3%A7%C3%B5es?"
                                 target="_blank" class="secondary-content">

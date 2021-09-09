@@ -3,11 +3,15 @@ defmodule NetCleverWeb.Stores.StoreLiveTest do
 
   import Phoenix.LiveViewTest
 
-  test "check if store exist", %{conn: conn} do
-    {:ok, store} = NetClever.StoresFixtures.create_store()
+  describe "test store" do
+    setup :register_and_log_in_user
 
-    {:ok, view, _html} = live(conn, "/stores")
+    test "check if store exist", %{conn: conn} do
+      {:ok, store} = NetClever.StoresFixtures.create_store()
 
-    assert has_element?(view, "##{store.id}")
+      {:ok, view, _html} = live(conn, "/stores")
+
+      assert has_element?(view, "##{store.id}")
+    end
   end
 end

@@ -25,8 +25,6 @@ NetClever.Stores.create_store(%{
 NetClever.Stores.create_store(%{
   name: "Business 2",
   description: "lorem ipsum",
-  lat: -22.63639202136818,
-  lng: -47.23120244169937,
   phone: "5519974039477",
   active: true
 })

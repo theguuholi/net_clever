@@ -2,8 +2,9 @@ defmodule NetClever.Stores.Store do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @required_fields [:name, :description, :lat, :lng, :phone]
-  @optional_fields [:photos_url, :active]
+  @category_types ~w/Comercio Alimenticio Acougue Vestuario Marketing Estetica/a
+  @required_fields [:name, :description, :phone]
+  @optional_fields [:photos_url, :active, :lat, :lng]
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   @derive {Jason.Encoder, only: [:id, :name, :description, :lat, :lng]}
@@ -16,6 +17,7 @@ defmodule NetClever.Stores.Store do
     field :active, :boolean, default: false
     field :photos_url, {:array, :string}
     field :user_id, :binary_id
+    field :category, Ecto.Enum, values: @category_types, default: :Comercio
 
     timestamps()
   end

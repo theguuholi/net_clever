@@ -11,6 +11,7 @@ defmodule NetCleverWeb.Page.StoreComponentTest do
         name: "Test Store Name",
         description: "Test Store Description",
         phone: "123123123",
+        category: nil,
         lat: "321",
         lng: "222"
       }

@@ -1,5 +1,6 @@
 defmodule NetCleverWeb.StoreNewLive do
   use NetCleverWeb, :live_view
+  alias Ecto.Enum
   alias NetClever.Stores
   alias NetClever.Stores.Store
 
@@ -12,6 +13,10 @@ defmodule NetCleverWeb.StoreNewLive do
   @impl true
   def render(assigns) do
     Phoenix.View.render(NetCleverWeb.StoreView, "new.html", assigns)
+  end
+
+  def load_categories do
+    Enum.values(Store, :category)
   end
 
   @impl true

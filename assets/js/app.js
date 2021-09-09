@@ -94,6 +94,9 @@ window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.modal');
     var instances = M.Modal.init(elems, {});
+
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems, {});
   });
 
 // connect if there are any LiveViews on the page

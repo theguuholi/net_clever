@@ -16,6 +16,13 @@
             <%= label f, :description, "Descreva seu negocio em poucas palavras" %>
             <%= error_tag f, :description %>
         </div>
+
+        <div class="col s12">
+            <%= label f, :category %>
+            <%= select f, :category, NetCleverWeb.StoreNewLive.load_categories,  class: "browser-default" %>
+            <%= error_tag f, :category %>
+        </div>
+
         <div class="input-field col s12">
             <%= text_input f, :phone, class: "validate" %>
             <%= label f, :phone, "Ex: +551999999999" %>
