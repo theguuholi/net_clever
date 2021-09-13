@@ -12,6 +12,14 @@ defmodule NetClever.Stores do
     Repo.all(Store)
   end
 
+  def get_active_store_numbers(active) do
+    Store
+    |> where([s], s.active == ^active)
+    |> select([s], count(s.id))
+    |> Repo.all()
+    |> hd()
+  end
+
   def list_stores(page: page, per_page: per_page) do
     Store
     |> offset(^((page - 1) * per_page))
@@ -48,9 +56,11 @@ defmodule NetClever.Stores do
   end
 
   def update_store(%Store{} = store, attrs) do
+    IO.inspect "here!!"
     store
     |> Store.changeset(attrs)
     |> Repo.update()
+    |> broadcast(:store_updated)
   end
 
   def delete_store(%Store{} = store) do
