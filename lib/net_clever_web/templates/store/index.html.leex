@@ -1,9 +1,7 @@
 <div class="row"></div>
 <div class="row"></div>
-
-
 <div class="row">
-    <form class="col s12" phx-submit="name-search" phx-change="suggest-store">
+    <form class="col s6" phx-submit="name-search" phx-change="suggest-store">
         <div class="row">
             <div class="input-field col s12">
                 <input id="name" type="text" name="name" value="<%= @name %>" class="validate"
@@ -11,6 +9,15 @@
                     list="matches"
                     <%= if @loading, do: "readonly" %>>
                 <label for="name">Pesquisa por nome da loja</label>
+            </div>
+        </div>
+    </form>
+    <form class="col s6" phx-change="filter-category">
+        <div class="row">
+            <div class="input-field col s12">
+                <select name="category" id="category" class="browser-default">
+                    <%= options_for_select(NetCleverWeb.StoreLive.get_categories, nil) %>
+                </select>
             </div>
         </div>
     </form>

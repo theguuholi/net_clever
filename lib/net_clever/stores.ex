@@ -8,6 +8,20 @@ defmodule NetClever.Stores do
 
   alias NetClever.Stores.Store
 
+  def get_categories, do: Ecto.Enum.values(Store, :category)
+
+  def list_stores(criteria) when is_list(criteria) do
+    query = from(s in Store)
+    criteria
+    |> Enum.reduce(query, fn
+      {:category, ""}, query -> query
+      {:category, category}, query -> from q in query, where: q.category == ^category
+      {:name, ""}, query -> query
+      {:name, name}, query -> from q in query, where: q.name == ^name
+    end)
+    |> Repo.all()
+  end
+
   def list_stores do
     Repo.all(Store)
   end
@@ -22,6 +36,7 @@ defmodule NetClever.Stores do
 
   def list_suggest_stores_by_name(name) do
     name = "#{name}%"
+
     Store
     |> where([s], ilike(s.name, ^name))
     |> order_by([{:desc, :inserted_at}])
@@ -31,6 +46,7 @@ defmodule NetClever.Stores do
 
   def list_stores_by_name(name) do
     name = "#{name}%"
+
     Store
     |> where([s], ilike(s.name, ^name))
     |> order_by([{:desc, :inserted_at}])
@@ -73,7 +89,6 @@ defmodule NetClever.Stores do
   end
 
   def update_store(%Store{} = store, attrs) do
-    IO.inspect "here!!"
     store
     |> Store.changeset(attrs)
     |> Repo.update()

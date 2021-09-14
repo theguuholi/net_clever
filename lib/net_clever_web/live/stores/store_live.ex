@@ -9,6 +9,10 @@ defmodule NetCleverWeb.StoreLive do
     {:ok, load(socket, params), temporary_assigns: [stores: []]}
   end
 
+  def get_categories do
+    Stores.get_categories()
+  end
+
   defp load(socket, params) do
     stores = Stores.list_stores()
     active_stores = Stores.get_active_store_numbers(true)
@@ -58,9 +62,14 @@ defmodule NetCleverWeb.StoreLive do
   end
 
   @impl true
+  def handle_event("filter-category", %{"category" => category}, socket) do
+    stores = Stores.list_stores(category: category)
+    {:noreply, assign(socket, stores: stores)}
+  end
+
+  @impl true
   def handle_event("suggest-store", %{"name" => name}, socket) do
     matches = Stores.list_suggest_stores_by_name(name)
-
     {:noreply, assign(socket, matches: matches)}
   end
 end
