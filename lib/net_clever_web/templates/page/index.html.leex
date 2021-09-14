@@ -1,9 +1,8 @@
+<div class="row"></div>
 <div class="row" id="stores-list" phx-update="append">
-    <%= for store <- @stores do %>
-      <%= live_component NetCleverWeb.Page.StoreComponent, store: store, id: store.id %>
-    <% end %>
+  <%= for store <- @stores do %>
+  <%= live_component NetCleverWeb.Page.StoreComponent, store: store, id: store.id %>
+  <% end %>
 </div>
-
 
 <div id="store-loading" data-page-number="<%= @page %>" phx-hook="ScrollStores">
-</div>

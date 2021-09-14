@@ -20,6 +20,23 @@ defmodule NetClever.Stores do
     |> hd()
   end
 
+  def list_suggest_stores_by_name(name) do
+    name = "#{name}%"
+    Store
+    |> where([s], ilike(s.name, ^name))
+    |> order_by([{:desc, :inserted_at}])
+    |> select([s], s.name)
+    |> Repo.all()
+  end
+
+  def list_stores_by_name(name) do
+    name = "#{name}%"
+    Store
+    |> where([s], ilike(s.name, ^name))
+    |> order_by([{:desc, :inserted_at}])
+    |> Repo.all()
+  end
+
   def list_stores(page: page, per_page: per_page) do
     Store
     |> offset(^((page - 1) * per_page))
