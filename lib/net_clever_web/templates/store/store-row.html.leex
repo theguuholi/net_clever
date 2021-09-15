@@ -9,6 +9,7 @@
                 id="store-<%= @store.id %>-change-visibility"
                 phx-click="change-availability" phx-target="<%= @myself %>"
                 phx-value-id="<%= @store.id %>"
+                phx-disable-with="Atualizando.."
                 class="chip white-text <%= @store.active && "green" || "red" %>"><%= if @store.active do  %>Ativo<% else %>Inativo<% end %></a>
     </td>
     <td>

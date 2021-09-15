@@ -7,12 +7,12 @@
 
     <div class="row">
         <div class="input-field col s12">
-            <%= text_input f, :name, class: "validate" %>
+            <%= text_input f, :name, class: "validate", phx_debounce: "2000" %>
             <%= label f, :name, "Nome da Empresa" %>
             <%= error_tag f, :name %>
         </div>
         <div class="input-field col s12">
-            <%= text_input f, :description, class: "validate" %>
+            <%= text_input f, :description, class: "validate", phx_debounce: "blur" %>
             <%= label f, :description, "Descreva seu negocio em poucas palavras" %>
             <%= error_tag f, :description %>
         </div>
