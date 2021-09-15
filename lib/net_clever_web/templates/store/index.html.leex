@@ -50,7 +50,6 @@ ignore - ignores updates to the DOM regardless of new content changes
 append - append the new DOM contents instead of replacing
 prepend - prepend the new DOM contents instead of replacing %>
 
-
 <div class="row">
     <div class="col s12 m12">
         <div class="card">
@@ -72,7 +71,7 @@ prepend - prepend the new DOM contents instead of replacing %>
 
 
 <form phx-change="select-per-page">
-    Show
+    Lojas por Pagina:
     <select name="per-page" id="per-page" class="browser-default">
         <%= options_for_select([5, 10, 15, 20], @options.per_page) %>
     </select>
@@ -81,21 +80,16 @@ prepend - prepend the new DOM contents instead of replacing %>
 <ul class="pagination">
     <%= if @options.page > 1 do %>
     <li class="waves-effect <%= if @options.page == 1, do: "active" %>">
-        <%= live_patch to: Routes.store_path(@socket, :index, page: @options.page - 1, per_page: @options.per_page) do %>
-        <i class="material-icons">chevron_left</i>
-        <% end %>
+        <%= pagination_link(@socket, "<<", @options.page - 1, @options) %>
     </li>
     <% end %>
-
     <%= for i <- (@options.page - 2)..(@options.page + 2), i > 0 do %>
     <li class="waves-effect <%= if @options.page == i, do: "active" %>">
-        <%= pagination_link(@socket, i, i, @options.per_page) %>
+        <%= pagination_link(@socket, i, i, @options) %>
     </li>
     <% end %>
     <li class="waves-effect">
-        <%= live_patch to: Routes.store_path(@socket, :index, page: @options.page + 1, per_page: @options.per_page) do %>
-        <i class="material-icons">chevron_right</i>
-        <% end %>
+        <%= pagination_link(@socket, ">>", @options.page + 1, @options) %>
     </li>
 </ul>
 
@@ -103,8 +97,12 @@ prepend - prepend the new DOM contents instead of replacing %>
 <table class="striped highlight centered responsive-table">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Phone</th>
+            <th>
+                <%= sort_link(@socket, "Name", :name, @options) %>
+            </th>
+            <th>
+                <%= sort_link(@socket, "Phone", :phone, @options) %>
+            </th>
             <th>Categoria</th>
             <th>Latitude</th>
             <th>Longitude</th>
