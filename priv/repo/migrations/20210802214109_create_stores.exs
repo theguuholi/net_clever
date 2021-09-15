@@ -3,7 +3,7 @@ defmodule NetClever.Repo.Migrations.CreateStores do
 
   def change do
     create_query =
-      "CREATE TYPE category_types AS ENUM ('Comercio', 'Alimenticio', 'Acougue', 'Vestuario', 'Marketing', 'Estetica')"
+      "CREATE TYPE category_types AS ENUM ('comercio', 'alimenticio', 'acougue', 'vestuario', 'marketing', 'estetica')"
 
     drop_query = "DROP TYPE category_types"
 
@@ -15,7 +15,7 @@ defmodule NetClever.Repo.Migrations.CreateStores do
       add :description, :text
       add :lat, :float, default: -22.734029485683514
       add :lng, :float, default: -47.33476458089478
-      add :category, :category_types, default: "Comercio"
+      add :category, :category_types, default: "comercio"
       add :active, :boolean, default: false
       add :phone, :string
 

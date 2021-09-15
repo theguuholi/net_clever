@@ -10,10 +10,12 @@ defmodule NetClever.Stores do
 
   def get_categories, do: Ecto.Enum.values(Store, :category)
 
-  def list_stores(criteria) when is_list(criteria) do
+  def list_stores_with_filters(criteria) when is_list(criteria) do
     query = from(s in Store)
     criteria
     |> Enum.reduce(query, fn
+      {:paginate, %{page: page, per_page: per_page}}, query ->
+        from q in query, offset: ^((page - 1) * per_page), limit: ^per_page
       {:category, ""}, query -> query
       {:category, category}, query -> from q in query, where: q.category == ^category
       {:name, ""}, query -> query

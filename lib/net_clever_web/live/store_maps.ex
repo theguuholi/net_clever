@@ -13,6 +13,11 @@ defmodule NetCleverWeb.StoreMapsLive do
     {:noreply, select_store(socket, params["selected_store"])}
   end
 
+  # @impl true
+  # def handle_params(_params, _, socket) do
+  #   {:noreply, socket}
+  # end
+
   defp select_store(socket, nil) do
     assign(socket,
       stores: Stores.list_stores(),

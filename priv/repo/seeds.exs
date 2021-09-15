@@ -61,8 +61,8 @@ NetClever.Stores.create_store(%{
   description: "lorem ipsum",
   lat: -22.63239202136818,
   lng: -47.22720244169937,
-  phone: "5519974039477",
-  active: true
+  category: :acougue,
+  phone: "5519974039477"
 })
 
-NetClever.Accounts.register_user(%{email: "test@lagoinha", password: "123123123123"})
+NetClever.Accounts.register_user(%{email: "adm@lagoinha", password: "123123123123"})

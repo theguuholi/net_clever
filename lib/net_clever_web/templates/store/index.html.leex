@@ -4,10 +4,8 @@
     <form class="col s6" phx-submit="name-search" phx-change="suggest-store">
         <div class="row">
             <div class="input-field col s12">
-                <input id="name" type="text" name="name" value="<%= @name %>" class="validate"
-                    phx-debounce="1000"
-                    list="matches"
-                    <%= if @loading, do: "readonly" %>>
+                <input id="name" type="text" name="name" value="<%= @name %>" class="validate" phx-debounce="1000"
+                    list="matches" <%= if @loading, do: "readonly" %>>
                 <label for="name">Pesquisa por nome da loja</label>
             </div>
         </div>
@@ -24,7 +22,7 @@
 
     <datalist id="matches">
         <%= for match <- @matches do %>
-            <option value="<%= match %>"><%= match %></option>
+        <option value="<%= match %>"><%= match %></option>
         <% end %>
     </datalist>
 </div>
@@ -57,7 +55,7 @@ prepend - prepend the new DOM contents instead of replacing %>
     <div class="col s12 m12">
         <div class="card">
             <div class="card-content">
-                <span class="card-title">Lojas cadastradas: <%= Enum.count(@stores) %></span>
+                <span class="card-title">Lojas cadastradas: <%= @total_stores %></span>
                 <p></p>
             </div>
             <div class="card-content">
@@ -73,11 +71,41 @@ prepend - prepend the new DOM contents instead of replacing %>
 </div>
 
 
+<form phx-change="select-per-page">
+    Show
+    <select name="per-page" id="per-page" class="browser-default">
+        <%= options_for_select([5, 10, 15, 20], @options.per_page) %>
+    </select>
+    <label for="per-page">Por Pagina</label>
+</form>
+<ul class="pagination">
+    <%= if @options.page > 1 do %>
+    <li class="waves-effect <%= if @options.page == 1, do: "active" %>">
+        <%= live_patch to: Routes.store_path(@socket, :index, page: @options.page - 1, per_page: @options.per_page) do %>
+        <i class="material-icons">chevron_left</i>
+        <% end %>
+    </li>
+    <% end %>
+
+    <%= for i <- (@options.page - 2)..(@options.page + 2), i > 0 do %>
+    <li class="waves-effect <%= if @options.page == i, do: "active" %>">
+        <%= pagination_link(@socket, i, i, @options.per_page) %>
+    </li>
+    <% end %>
+    <li class="waves-effect">
+        <%= live_patch to: Routes.store_path(@socket, :index, page: @options.page + 1, per_page: @options.per_page) do %>
+        <i class="material-icons">chevron_right</i>
+        <% end %>
+    </li>
+</ul>
+
+
 <table class="striped highlight centered responsive-table">
     <thead>
         <tr>
             <th>Name</th>
             <th>Phone</th>
+            <th>Categoria</th>
             <th>Latitude</th>
             <th>Longitude</th>
             <th>Active</th>
@@ -85,7 +113,7 @@ prepend - prepend the new DOM contents instead of replacing %>
         </tr>
     </thead>
 
-    <tbody id="stores-list" >
+    <tbody id="stores-list">
         <%= for store <- @stores do %>
         <%= live_component NetCleverWeb.StoreRow, id: store.id, store: store %>
         <% end %>
