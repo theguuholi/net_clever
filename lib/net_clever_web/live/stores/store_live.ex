@@ -83,6 +83,13 @@ defmodule NetCleverWeb.StoreLive do
     {:noreply, assign(socket, stores: [], loading: true, name: name)}
   end
 
+
+  @impl true
+  def handle_info({:store_created, store}, socket) do
+    socket = put_flash(socket, :info, "Loja #{store.name} foi criada!")
+    {:noreply, socket}
+  end
+
   @impl true
   def handle_event("filter-category", %{"category" => category}, socket) do
     stores = Stores.list_stores_with_filters(category: category)

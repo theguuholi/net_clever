@@ -66,3 +66,4 @@ NetClever.Stores.create_store(%{
 })
 
 NetClever.Accounts.register_user(%{email: "adm@lagoinha", password: "123123123123"})
+NetClever.Accounts.register_user(%{email: "t@lagoinha", password: "123123123123"})
