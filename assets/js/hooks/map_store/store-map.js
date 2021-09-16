@@ -6,7 +6,7 @@ class StoreMap {
         const accessToken = "pk.eyJ1IjoiZ3V1aG9saSIsImEiOiJja2c5bWVuaGwwc281MnNwZ3RtMjVlaWFuIn0.c8uUwyoB-wHJnrPEotEGSw"
 
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            attribution: '&copy; <a href="https://elxpro.com">Elxpro</a>',
             maxZoom: 18,
             id: 'mapbox/streets-v11',
             tileSize: 512,

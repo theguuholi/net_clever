@@ -21,57 +21,8 @@ import topbar from "topbar"
 import {
     LiveSocket
 } from "phoenix_live_view"
-import StoreMap from "./store-map";
 
-let Hooks = {};
-
-
-Hooks.ScrollStores = {
-    mounted(){
-        console.log("mounted", this.el)
-        this.observer = new IntersectionObserver(entries => {
-            console.log(entries)
-            const entry = entries[0];
-            if(entry.isIntersecting){
-                // console.log("visible")
-                this.pushEvent("load-stores", {})
-            }
-        })
-        this.observer.observe(this.el)
-    },
-    updated(){
-        const pageNumber = this.el.dataset.pageNumber;
-        console.log("updated", pageNumber)
-    },
-    destroyed(){
-        this.observer.disconnect();
-    }
-}
-
-Hooks.StoreMap = {
-    mounted() {
-        this.map = new StoreMap(this.el, [-22.74639202136818, -47.34120244169937], event => {
-            console.log("abc!!!!")
-            console.log(event.target.options.storeID)
-            const storeId = event.target.options.storeID;
-            this.pushEvent("store-clicked", {store_id: storeId})
-        });
-
-        const stores = JSON.parse(this.el.dataset.stores);
-        stores.forEach(store => {
-            this.map.addMarker(store);
-        })
-
-        this.handleEvent("highlight-marker", store => {
-            this.map.highlightMarker(store)
-        })
-        this.handleEvent("add-marker", store => {
-            this.map.addMarker(store)
-            this.map.highlightMarker(store)
-        })
-    }
-}
-
+import Hooks from "./hooks";
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {

@@ -33,7 +33,6 @@ defmodule NetCleverWeb.StoreView do
     )
   end
 
-  @spec toggle_sort_order(:asc | :desc) :: :asc | :desc
   def toggle_sort_order(:asc), do: :desc
   def toggle_sort_order(:desc), do: :asc
   def emoji(:asc), do: "👆"
