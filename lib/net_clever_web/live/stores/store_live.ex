@@ -54,6 +54,7 @@ defmodule NetCleverWeb.StoreLive do
 
   @impl true
   def handle_info({:search_by_name, name}, socket) do
+    :timer.sleep(1000)
     stores = Stores.list_stores_by_name(name)
 
     socket =
