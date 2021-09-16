@@ -21,15 +21,10 @@ defmodule NetCleverWeb.StoreLive do
     sort_order = (params["sort_order"] || "asc") |> String.to_atom()
     sort_options = %{sort_by: sort_by, sort_order: sort_order}
     stores = Stores.list_stores_with_filters(paginate: paginate, sort: sort_options)
-    active_stores = Stores.get_active_store_numbers(true)
-    inactive_stores = Stores.get_active_store_numbers(false)
 
     params =
       [
         stores: stores,
-        active_stores: active_stores,
-        inactive_stores: inactive_stores,
-        total_stores: active_stores + inactive_stores,
         options: Map.merge(paginate, sort_options),
         name: nil, loading: false, matches: [], page: page, per_page: per_page
       ]
@@ -53,9 +48,7 @@ defmodule NetCleverWeb.StoreLive do
 
   @impl true
   def handle_info({:store_updated, _store}, socket) do
-    active_stores = Stores.get_active_store_numbers(true)
-    inactive_stores = Stores.get_active_store_numbers(false)
-    socket = assign(socket, active_stores: active_stores, inactive_stores: inactive_stores)
+    send(:"store-info", :update_store_info)
     {:noreply, socket}
   end
 
