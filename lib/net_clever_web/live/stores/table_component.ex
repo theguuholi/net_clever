@@ -3,27 +3,8 @@ defmodule NetCleverWeb.Stores.TableComponent do
   alias NetClever.Stores
 
   @impl true
-  def update(%{params: params}, socket) do
-    page = String.to_integer(params["page"] || "1")
-    per_page = String.to_integer(params["per_page"] || "5")
-    paginate = %{page: page, per_page: per_page}
-
-    sort_by = (params["sort_by"] || "name") |> String.to_atom()
-    sort_order = (params["sort_order"] || "asc") |> String.to_atom()
-    sort_options = %{sort_by: sort_by, sort_order: sort_order}
-    stores = Stores.list_stores_with_filters(paginate: paginate, sort: sort_options)
-
-    params = [
-      stores: stores,
-      options: Map.merge(paginate, sort_options),
-      name: nil,
-      loading: false,
-      matches: [],
-      page: page,
-      per_page: per_page
-    ]
-
-    {:ok, assign(socket, params)}
+  def update(assigns, socket) do
+    {:ok, assign(socket, assigns)}
   end
 
   @impl true
@@ -59,31 +40,5 @@ defmodule NetCleverWeb.Stores.TableComponent do
     matches = Stores.list_suggest_stores_by_name(name)
     {:noreply, assign(socket, matches: matches)}
   end
-
-  @impl true
-  def handle_info({:search_by_name, name}, socket) do
-    :timer.sleep(1000)
-    stores = Stores.list_stores_by_name(name)
-
-    socket =
-      case stores do
-        [] ->
-          socket
-          |> put_flash(:info, "Nao existe lojas com: \"#{name}\"")
-          |> assign(stores: stores, loading: false)
-
-        stores ->
-          assign(socket, stores: stores, loading: false)
-      end
-
-    {:noreply, socket}
-  end
-
-  @impl true
-  def handle_event("name-search", %{"name" => name}, socket) do
-    send(self(), {:search_by_name, name})
-    {:noreply, assign(socket, stores: [], loading: true, name: name)}
-  end
-
 
 end

@@ -1,6 +1,6 @@
 
 <div class="row">
-    <form class="col s3 m3" phx-submit="name-search" phx-change="suggest-store"  phx-target="<%= @myself %>">
+    <form class="col s3 m3" phx-submit="name-search" phx-change="suggest-store">
         <div class="row">
             <div class="input-field col s12">
                 <input id="name" type="text" name="name" value="<%= @name %>" class="validate" phx-debounce="1000"
