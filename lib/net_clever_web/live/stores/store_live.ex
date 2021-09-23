@@ -57,7 +57,6 @@ defmodule NetCleverWeb.StoreLive do
   @impl true
   def handle_info({:search_by_name, name}, socket) do
     :timer.sleep(1000)
-    IO.inspect socket.assigns
     paginate = %{page: socket.assigns.options.page, per_page: socket.assigns.options.per_page}
     sort_options = %{sort_by: socket.assigns.options.sort_by, sort_order: socket.assigns.options.sort_order}
     stores = Stores.list_stores_with_filters(paginate: paginate, sort: sort_options, name: name)

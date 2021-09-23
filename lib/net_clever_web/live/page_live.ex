@@ -25,7 +25,6 @@ defmodule NetCleverWeb.PageLive do
 
   @impl true
   def handle_event("load-stores", _, socket) do
-    IO.inspect "here!!"
     :timer.sleep(1000)
     socket = socket |> update(:page, &(&1 + 1)) |> load_stores()
     {:noreply, socket}

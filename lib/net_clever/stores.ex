@@ -11,7 +11,6 @@ defmodule NetClever.Stores do
   def get_categories, do: Ecto.Enum.values(Store, :category)
 
   def list_stores_with_filters(criteria) when is_list(criteria) do
-    IO.inspect(criteria)
     query = from(s in Store)
 
     criteria
