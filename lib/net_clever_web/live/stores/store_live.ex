@@ -26,14 +26,21 @@ defmodule NetCleverWeb.StoreLive do
 
     sort_by = (params["sort_by"] || "name") |> String.to_atom()
     sort_order = (params["sort_order"] || "asc") |> String.to_atom()
+    name = params["name"] || ""
     sort_options = %{sort_by: sort_by, sort_order: sort_order}
-    stores = Stores.list_stores_with_filters(paginate: paginate, sort: sort_options)
+    stores = Stores.list_stores_with_filters(paginate: paginate, sort: sort_options, name: name)
+
+    active_stores = Stores.get_active_store_numbers(true)
+    inactive_stores = Stores.get_active_store_numbers(false)
 
     {:noreply,
      assign(socket,
        stores: stores,
-       name:  nil,
+       name: name,
        loading: false,
+       category: "comercio",
+       active_stores: active_stores,
+       inactive_stores: inactive_stores,
        matches: [],
        options: Map.merge(paginate, sort_options),
        page: page,
@@ -50,7 +57,10 @@ defmodule NetCleverWeb.StoreLive do
   @impl true
   def handle_info({:search_by_name, name}, socket) do
     :timer.sleep(1000)
-    stores = Stores.list_stores_by_name(name)
+    IO.inspect socket.assigns
+    paginate = %{page: socket.assigns.options.page, per_page: socket.assigns.options.per_page}
+    sort_options = %{sort_by: socket.assigns.options.sort_by, sort_order: socket.assigns.options.sort_order}
+    stores = Stores.list_stores_with_filters(paginate: paginate, sort: sort_options, name: name)
 
     socket =
       case stores do
@@ -64,6 +74,45 @@ defmodule NetCleverWeb.StoreLive do
       end
 
     {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({:store_updated, _}, socket) do
+    active_stores = Stores.get_active_store_numbers(true)
+    inactive_stores = Stores.get_active_store_numbers(false)
+    socket = assign(socket, active_stores: active_stores, inactive_stores: inactive_stores)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("filter-category", %{"category" => category}, socket) do
+    stores = Stores.list_stores_with_filters(category: category)
+    {:noreply, assign(socket, stores: stores, category: category)}
+  end
+
+  @impl true
+  def handle_event("select-per-page", %{"per-page" => per_page}, socket) do
+    per_page = String.to_integer(per_page)
+    paginate = %{page: socket.assigns.options.page, per_page: per_page}
+
+    socket =
+      push_patch(socket,
+        to:
+          Routes.store_path(socket, :index,
+            page: paginate.page,
+            per_page: per_page,
+            sort_by: socket.assigns.options.sort_by,
+            sort_order: socket.assigns.options.sort_order
+          )
+      )
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("suggest-store", %{"name" => name}, socket) do
+    matches = Stores.list_suggest_stores_by_name(name)
+    {:noreply, assign(socket, matches: matches)}
   end
 
   @impl true

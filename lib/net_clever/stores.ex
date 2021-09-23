@@ -11,17 +11,23 @@ defmodule NetClever.Stores do
   def get_categories, do: Ecto.Enum.values(Store, :category)
 
   def list_stores_with_filters(criteria) when is_list(criteria) do
+    IO.inspect(criteria)
     query = from(s in Store)
+
     criteria
     |> Enum.reduce(query, fn
       {:paginate, %{page: page, per_page: per_page}}, query ->
         from q in query, offset: ^((page - 1) * per_page), limit: ^per_page
+
       {:sort, %{sort_by: sort_by, sort_order: sort_order}}, query ->
         from q in query, order_by: [{^sort_order, ^sort_by}]
-      {:category, ""}, query -> query
-      {:category, category}, query -> from q in query, where: q.category == ^category
-      {:name, ""}, query -> query
-      {:name, name}, query -> from q in query, where: q.name == ^name
+
+      {:category, category}, query ->
+        from q in query, where: q.category == ^category
+
+      {:name, name}, query ->
+        name = "#{name}%"
+        from q in query, where: ilike(q.name, ^name)
     end)
     |> Repo.all()
   end
@@ -45,15 +51,6 @@ defmodule NetClever.Stores do
     |> where([s], ilike(s.name, ^name))
     |> order_by([{:desc, :inserted_at}])
     |> select([s], s.name)
-    |> Repo.all()
-  end
-
-  def list_stores_by_name(name) do
-    name = "#{name}%"
-
-    Store
-    |> where([s], ilike(s.name, ^name))
-    |> order_by([{:desc, :inserted_at}])
     |> Repo.all()
   end
 

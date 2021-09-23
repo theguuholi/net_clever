@@ -1,6 +1,6 @@
 <div class="row"></div>
 
-<%= live_component NetCleverWeb.Stores.InfoComponent, id: "store-info" %>
+<%= live_component NetCleverWeb.Stores.InfoComponent, id: "store-info", active_stores: @active_stores, inactive_stores: @inactive_stores %>
 <%= live_component NetCleverWeb.Stores.TableComponent, id: "store-table",
     stores: @stores,
        name:  @name,
@@ -8,6 +8,7 @@
        matches: @matches,
        options: @options,
        page: @page,
+       category: @category,
        per_page: @per_page %>
 
 <a class="btn-floating btn-large waves-effect waves-light red right modal-trigger" href="#modal1">
