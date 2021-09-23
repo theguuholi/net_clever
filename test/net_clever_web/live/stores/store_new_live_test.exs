@@ -10,6 +10,10 @@ defmodule NetCleverWeb.Stores.StoreNewLiveTest do
            |> form("#new-store-form", store: %{name: nil})
            |> render_change() =~ "preencher o campo acima"
 
+    assert index_live
+           |> form("#new-store-form", store: %{name: nil})
+           |> render_submit()
+
     store = %{
       name: "Business 2",
       description: "lorem ipsum",

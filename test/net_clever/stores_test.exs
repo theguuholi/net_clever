@@ -37,6 +37,37 @@ defmodule NetClever.StoresTest do
       store = store_fixture()
       assert Stores.list_stores() == [store]
     end
+    test "list_suggest_stores_by_name/1 returns all stores" do
+      store_fixture()
+      assert Stores.list_suggest_stores_by_name("so") == ["some name"]
+    end
+
+    test "list_stores_with_filters/0 returns all stores" do
+      store = store_fixture()
+
+      assert Stores.list_stores_with_filters(
+               paginate: %{page: 1, per_page: 3},
+               sort: %{sort_by: :name, sort_order: :asc},
+               category: "comercio",
+               name: "some"
+             ) == [store]
+    end
+
+    test "get_active_store_numbers!/1 return active stores" do
+      store_fixture()
+      assert Stores.get_active_store_numbers(true) == 0
+    end
+
+    test "get_categories/0" do
+      assert Stores.get_categories() == [
+               :comercio,
+               :alimenticio,
+               :acougue,
+               :vestuario,
+               :marketing,
+               :estetica
+             ]
+    end
 
     test "get_store!/1 returns the store with given id" do
       store = store_fixture()

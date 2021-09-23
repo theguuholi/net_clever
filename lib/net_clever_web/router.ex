@@ -19,7 +19,7 @@ defmodule NetCleverWeb.Router do
     live "/", PageLive, :index
     live "/stores/new", StoreNewLive, :index
     live "/maps", StoreMapsLive, :index
-    live "/datepicker", DatePickerLive
+    # live "/datepicker", DatePickerLive
   end
 
   # Other scopes may use custom stacks.
