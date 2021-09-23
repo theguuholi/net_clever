@@ -16,13 +16,13 @@
         <% end %>
     </datalist>
 
-    <form phx-change="select-per-page" class="col s2 m2">
+    <form phx-change="select-per-page" id="form-select-per-page" class="col s2 m2">
         <select name="per-page" id="per-page" class="browser-default">
             <%= options_for_select([5, 10, 15, 20], @options.per_page) %>
         </select>
     </form>
 
-    <form phx-change="filter-category" class="col s3 m3">
+    <form phx-change="filter-category" id="form-filter-by-category" class="col s3 m3">
         <div class="input-field">
             <select name="category" id="category" class="browser-default">
                 <%= options_for_select(NetCleverWeb.StoreLive.get_categories, @category) %>

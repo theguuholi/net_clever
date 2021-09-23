@@ -11,7 +11,62 @@ defmodule NetCleverWeb.Stores.StoreLiveTest do
 
       {:ok, view, _html} = live(conn, "/stores")
 
-      assert has_element?(view, "##{store.id}")
+      assert has_element?(view, "#store-#{store.id}")
+    end
+
+    test "should filter by category", %{conn: conn} do
+      {:ok, store} = NetClever.StoresFixtures.create_store()
+
+      {:ok, view, _html} = live(conn, "/stores")
+
+      rendered =
+        view
+        |> element("#form-filter-by-category")
+        |> render_change(%{category: "comercio"})
+
+      assert has_element?(view, "#store-#{store.id}", "Lagoinha")
+      assert rendered =~ "Lagoinha"
+
+      rendered =
+        view
+        |> form("#form-filter-by-category", %{category: "acougue"})
+        |> render_change()
+
+      refute has_element?(view, "#store-#{store.id}", "Lagoinha")
+      refute rendered =~ "Lagoinha"
+    end
+
+    test "should select-per-page", %{conn: conn} do
+      {:ok, store_1} = NetClever.StoresFixtures.create_store()
+      {:ok, store_2} = NetClever.StoresFixtures.create_store()
+      {:ok, store_3} = NetClever.StoresFixtures.create_store()
+      {:ok, store_4} = NetClever.StoresFixtures.create_store()
+      {:ok, store_5} = NetClever.StoresFixtures.create_store()
+      {:ok, store_6} = NetClever.StoresFixtures.create_store()
+
+      {:ok, view, _html} = live(conn, "/stores")
+
+      view
+      |> form("#form-select-per-page", %{"per-page": "5"})
+      |> render_change()
+
+      assert has_element?(view, "#store-#{store_1.id}", "Lagoinha")
+      assert has_element?(view, "#store-#{store_2.id}", "Lagoinha")
+      assert has_element?(view, "#store-#{store_3.id}", "Lagoinha")
+      assert has_element?(view, "#store-#{store_4.id}", "Lagoinha")
+      assert has_element?(view, "#store-#{store_5.id}", "Lagoinha")
+      refute has_element?(view, "#store-#{store_6.id}", "Lagoinha")
+
+      view
+      |> form("#form-select-per-page", %{"per-page": "10"})
+      |> render_change()
+
+      assert has_element?(view, "#store-#{store_1.id}", "Lagoinha")
+      assert has_element?(view, "#store-#{store_2.id}", "Lagoinha")
+      assert has_element?(view, "#store-#{store_3.id}", "Lagoinha")
+      assert has_element?(view, "#store-#{store_4.id}", "Lagoinha")
+      assert has_element?(view, "#store-#{store_5.id}", "Lagoinha")
+      assert has_element?(view, "#store-#{store_6.id}", "Lagoinha")
     end
   end
 end
