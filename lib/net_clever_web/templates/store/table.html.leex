@@ -1,6 +1,5 @@
-
 <div class="row">
-    <form class="col s3 m3" phx-submit="name-search" phx-change="suggest-store">
+    <form class="col s3 m3" phx-submit="name-search" phx-change="suggest-store" id="form-suggest-store">
         <div class="row">
             <div class="input-field col s12">
                 <input id="name" type="text" name="name" value="<%= @name %>" class="validate" phx-debounce="1000"
@@ -47,7 +46,9 @@
 </div>
 
 <%= if @loading do %>
-<div class="row center">
+<div class="row center" id="loading-stores">
+    Loading...
+
     <div class="preloader-wrapper big active">
         <div class="spinner-layer spinner-blue-only">
             <div class="circle-clipper left">
