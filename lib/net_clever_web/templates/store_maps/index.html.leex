@@ -2,7 +2,7 @@
     <div class="col s2" id="mapping">
       <div phx-update="append" id="stores-menu" class="collection">
         <%= for store <- @stores do %>
-          <%= live_patch store.name, to: Routes.store_maps_path(@socket, :index, id: store.id), id: "store-#{store.id}", phx_value_id: "#{store.id}", phx_click: "select-store",  class: "collection-item  #{@selected_store == store && "active"}" %>
+          <%= live_patch store.name, to: Routes.store_maps_path(@socket, :index, id: store.id), phx_value_id: "#{store.id}", phx_click: "select-store", id: "select-store-#{store.id}",   class: "collection-item  #{@selected_store && @selected_store.id == store.id && "active"}" %>
         <% end %>
       </div>
     </div>
