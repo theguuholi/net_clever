@@ -65,6 +65,7 @@ defmodule NetCleverWeb.Router do
   scope "/", NetCleverWeb do
     pipe_through [:browser, :require_authenticated_user]
 
+    live "/charts", ChartLive, :index
     live "/stores", StoreLive, :index
 
     get "/users/settings", UserSettingsController, :edit
