@@ -28,7 +28,7 @@
             </select>
         </div>
     </form>
-    <ul class="pagination col s4 m4">
+    <ul class="pagination col s4 m4" phx-window-keydown="nex-page" phx-throttle="500" phx-target="<%= @myself %>">
         <%= if @options.page > 1 do %>
         <li class="waves-effect <%= if @options.page == 1, do: "active" %>">
             <%= pagination_link(@socket, "<<", @options.page - 1, @options) %>

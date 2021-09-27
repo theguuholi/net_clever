@@ -24,6 +24,9 @@ defmodule NetCleverWeb.ChartLive do
   def render(assigns) do
     ~L"""
 
+      <div id="key-events" phx-window-keyup="update">
+        abc
+      </div>
       <div id="charting">
 
       <div phx-update="ignore">
@@ -41,6 +44,11 @@ defmodule NetCleverWeb.ChartLive do
       </div>
       </div>
     """
+  end
+
+  def handle_event("update", %{"key" => key}, socket) do
+    IO.inspect key
+    {:noreply, socket}
   end
 
   def handle_event("get-reading", _, socket) do
