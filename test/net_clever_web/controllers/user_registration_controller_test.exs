@@ -1,6 +1,8 @@
 defmodule NetCleverWeb.UserRegistrationControllerTest do
   use NetCleverWeb.ConnCase, async: true
 
+  import Phoenix.LiveViewTest
+
   import NetClever.AccountsFixtures
 
   describe "GET /users/register" do
@@ -38,15 +40,21 @@ defmodule NetCleverWeb.UserRegistrationControllerTest do
     end
 
     test "render errors for invalid data", %{conn: conn} do
-      conn =
-        post(conn, Routes.user_registration_path(conn, :create), %{
-          "user" => %{"email" => "with spaces", "password" => "too short"}
-        })
+      # conn =
+      #   post(conn, Routes.user_registration_path(conn, :create), )
 
-      response = html_response(conn, 200)
-      assert response =~ "<h1>Register</h1>"
-      assert response =~ "must have the @ sign and no spaces"
-      assert response =~ "should be at least 12 character"
+      {:ok, index_live, _html} = live(conn, "/users/register")
+
+      assert index_live
+             |> form("#new-user-form", %{
+               "user" => %{"email" => "with spaces", "password" => "too short"}
+             })
+             |> render_change() =~ "must have the @ sign and no spaces"
+
+      # response = html_response(conn, 200)
+      # assert response =~ "<h1>Register</h1>"
+      # assert response =~ "must have the @ sign and no spaces"
+      # assert response =~ "should be at least 12 character"
     end
   end
 end

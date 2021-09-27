@@ -2,6 +2,7 @@
 
 <%= f = form_for @changeset,
         Routes.user_registration_path(@socket, :create),
+        id: "new-user-form",
         phx_submit: "save",
         phx_change: "validate",
         phx_trigger_action: @trigger_submit %>
