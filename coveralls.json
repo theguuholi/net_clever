@@ -7,6 +7,7 @@
       "lib/net_clever_web/live/date_picker_live.ex",
       "lib/net_clever_web/views",
       "lib/net_clever_web/telemetry.ex",
+      "lib/net_clever_web/live/stores/table_component.ex",
       "test/support/channel_case.ex",
       "lib/net_clever_web/live/chart_live.ex",
       "test/support/data_case.ex"

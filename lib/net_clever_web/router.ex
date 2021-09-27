@@ -17,7 +17,7 @@ defmodule NetCleverWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
-    live "/stores/new", StoreNewLive, :index
+    live "/stores/customer_create", StoreNewLive, :index
     live "/maps", StoreMapsLive, :index
     # live "/datepicker", DatePickerLive
   end
@@ -67,6 +67,7 @@ defmodule NetCleverWeb.Router do
 
     live "/charts", ChartLive, :index
     live "/stores", StoreLive, :index
+    live "/stores/new", StoreLive, :new_store
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update

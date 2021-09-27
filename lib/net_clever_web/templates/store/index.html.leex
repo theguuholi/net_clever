@@ -11,7 +11,13 @@
        category: @category,
        per_page: @per_page %>
 
-<a class="btn-floating btn-large waves-effect waves-light red right modal-trigger" href="#modal1">
+<%= live_patch to: Routes.store_path(@socket, :new_store), class: "btn-floating btn-large waves-effect waves-light red right modal-trigger" do %>
     <i class="material-icons">add</i>
-</a>
-<%= live_component NetCleverWeb.Stores.ModalComponent %>
+<% end %>
+
+<%= if @live_action == :new_store do %>
+<%= live_component NetCleverWeb.Shared.ModalComponent,
+                    id: "#{@live_action}",
+                    modal: Routes.store_path(@socket, :new_store),
+                    component: NetCleverWeb.Stores.NewStoreComponent %>
+<% end %>
