@@ -8,6 +8,7 @@
       "lib/net_clever_web/views",
       "lib/net_clever_web/telemetry.ex",
       "test/support/channel_case.ex",
+      "lib/net_clever_web/live/chart_live.ex",
       "test/support/data_case.ex"
     ],
     "coverage_options": {
