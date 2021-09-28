@@ -7,6 +7,14 @@ defmodule NetCleverWeb.StoreNewLive do
   @impl true
   def mount(_params, _session, socket) do
     changeset = Stores.change_store(%Store{}, %{})
+
+    socket =
+      allow_upload(socket, :photos,
+        accept: ~w/.png .jpeg .jpg/,
+        max_entries: 3,
+        max_file_size: 10_000_000
+      )
+
     {:ok, assign(socket, changeset: changeset)}
   end
 
@@ -27,6 +35,10 @@ defmodule NetCleverWeb.StoreNewLive do
       |> Map.put(:action, :insert)
 
     {:noreply, assign(socket, changeset: changeset)}
+  end
+
+  def handle_event("cancel", %{"ref" => ref}, socket) do
+    {:noreply, cancel_upload(socket, :photos, ref)}
   end
 
   @impl true

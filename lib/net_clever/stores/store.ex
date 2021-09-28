@@ -1,6 +1,7 @@
 defmodule NetClever.Stores.Store do
   use Ecto.Schema
   import Ecto.Changeset
+  alias NetClever.Stores.Photo
 
   @category_types ~w/comercio alimenticio acougue vestuario marketing estetica/a
   @required_fields [:name, :description, :phone, :category]
@@ -19,6 +20,8 @@ defmodule NetClever.Stores.Store do
     field :user_id, :binary_id
     field :category, Ecto.Enum, values: @category_types, default: :comercio
 
+    has_many :photos, Photo
+
     timestamps()
   end
 
@@ -26,6 +29,7 @@ defmodule NetClever.Stores.Store do
   def changeset(store, attrs) do
     store
     |> cast(attrs, @optional_fields ++ @required_fields)
+    |> cast_assoc(:photos, with: &Photo.changeset/2)
     |> validate_required(@required_fields, message: "preencher o campo acima")
   end
 end
