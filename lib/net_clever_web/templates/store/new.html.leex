@@ -45,8 +45,8 @@
                 Adicione fotos com o maximo <%= @uploads.photos.max_entries %>
                 (maximo <%= trunc(@uploads.photos.max_file_size / 1_000_000)  %> mb cada)
             </div>
-            <div class="row">
-                <%= live_file_input @uploads.photos, class: "" %>
+            <div class="row" phx-drop-target="<%= @uploads.photos.ref %>">
+                <%= live_file_input @uploads.photos, class: "" %> or drag and drop here
             </div>
 
             <div class="row">

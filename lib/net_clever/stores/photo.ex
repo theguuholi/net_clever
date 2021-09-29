@@ -16,8 +16,8 @@ defmodule NetClever.Stores.Photo do
   @doc false
   def changeset(photo, attrs) do
     photo
-    |> cast(attrs, [:store_id])
+    |> cast(attrs, [])
     |> cast_attachments(attrs, [:image_url])
-    |> validate_required([:store_id])
+    |> validate_required([])
   end
 end

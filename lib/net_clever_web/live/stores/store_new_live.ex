@@ -27,6 +27,24 @@ defmodule NetCleverWeb.StoreNewLive do
     Enum.values(Store, :category)
   end
 
+  defp filename(entry) do
+    [ext | _] = MIME.extensions(entry.client_type)
+    "#{entry.uuid}.#{ext}"
+  end
+
+  defp create_photos_urls(socket, store) do
+    consume_uploaded_entries(socket, :photos, fn meta, entry ->
+      # process uploads
+      # IO.inspect(meta, label: "meta")
+      # IO.inspect(entry, label: "entry")
+      # dest = Path.join("priv/statis/uploads", entry.uuid)
+      dest = Path.join("priv/static/uploads", filename(entry))
+      File.cp!(meta.path, dest)
+      # %{image_url: Routes.static_path(socket, "/uploads/#{filename(entry)}")}
+    end)
+    {:ok, store}
+  end
+
   @impl true
   def handle_event("validate", %{"store" => store}, socket) do
     changeset =
@@ -43,8 +61,23 @@ defmodule NetCleverWeb.StoreNewLive do
 
   @impl true
   def handle_event("save", %{"store" => store}, socket) do
-    case Stores.create_store(store) do
+    # 1. Copy temp files
+    # 2. Assign photos url
+    # urls = create_photos_urls(socket)
+    # store = Map.put(store, "photos", urls)
+
+    {completed, []} = uploaded_entries(socket, :photos)
+
+    urls =
+      for entry <- completed do
+        %{image_url: Routes.static_path(socket, "/uploads/#{filename(entry)}")}
+      end
+    store = Map.put(store, "photos", urls)
+
+    case Stores.create_store(store, &create_photos_urls(socket, &1))do
       {:ok, _store} ->
+        # create_photos_urls(socket, store)
+
         {:noreply,
          socket
          |> put_flash(:info, "Loja cadastrada")

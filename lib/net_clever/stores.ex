@@ -65,11 +65,20 @@ defmodule NetClever.Stores do
   def get_store!(id), do: Repo.get!(Store, id)
   def get_store(id), do: Repo.get(Store, id)
 
-  def create_store(attrs \\ %{}) do
+  def create_store(attrs \\ %{}, fun) do
     %Store{}
     |> Store.changeset(attrs)
     |> Repo.insert()
+    |> after_save(fun)
     |> broadcast(:store_created)
+  end
+
+  defp after_save({:ok, store}, fun) do
+    {:ok, _store} = fun.(store)
+  end
+
+  defp after_save(error, _) do
+    error
   end
 
   def subscribe do
