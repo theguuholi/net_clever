@@ -23,13 +23,15 @@ import {
 } from "phoenix_live_view"
 
 import Hooks from "./hooks";
+import Uploaders from "./uploaders";
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
     params: {
         _csrf_token: csrfToken
     },
-    hooks: Hooks
+    hooks: Hooks,
+    uploaders: Uploaders
 })
 
 // Show progress bar on live navigation and form submits
@@ -48,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems, {});
+
   });
 
 // connect if there are any LiveViews on the page

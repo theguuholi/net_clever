@@ -63,10 +63,7 @@ defmodule NetClever.MixProject do
       {:sobelow, "~> 0.8", only: :dev},
       {:exavier, "~> 0.3.0"},
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
-      {:phx_gen_auth, "~> 0.7", only: [:dev], runtime: false},
-
-      {:waffle, "~> 1.1.0"},
-      {:waffle_ecto, "~> 0.0.9"}
+      {:phx_gen_auth, "~> 0.7", only: [:dev], runtime: false}
     ]
   end
 

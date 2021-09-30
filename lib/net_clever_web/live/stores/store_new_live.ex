@@ -12,7 +12,8 @@ defmodule NetCleverWeb.StoreNewLive do
       allow_upload(socket, :photos,
         accept: ~w/.png .jpeg .jpg/,
         max_entries: 3,
-        max_file_size: 10_000_000
+        max_file_size: 10_000_000,
+        external: &generate_metadata/2
       )
 
     {:ok, assign(socket, changeset: changeset)}
@@ -27,6 +28,34 @@ defmodule NetCleverWeb.StoreNewLive do
     Enum.values(Store, :category)
   end
 
+  @s3_bucket "liveview_lagoinha"
+  defp s3_url, do: "//#{@s3_bucket}.s3.amazonaws.com"
+
+  defp generate_metadata(entry, socket) do
+    config = %{
+      region: "us-east-2",
+      access_key_id: System.fetch_env!("AWS_ACCESS_KEY_ID"),
+      secret_access_key: System.fetch_env!("AWS_SECRET_ACCESS_KEY")
+    }
+
+    {:ok, fields} =
+      SimpleS3Upload.sign_form_upload(config, @s3_bucket,
+        key: filename(entry),
+        content_type: entry.client_type,
+        max_file_size: socket.assigns.uploads.photos.max_file_size,
+        expires_in: :timer.hours(1)
+      )
+
+    metadata = %{
+      uploader: "s3",
+      key: filename(entry),
+      url: s3_url(),
+      fields: fields
+    }
+
+    {:ok, metadata, socket}
+  end
+
   defp filename(entry) do
     [ext | _] = MIME.extensions(entry.client_type)
     "#{entry.uuid}.#{ext}"
@@ -38,10 +67,12 @@ defmodule NetCleverWeb.StoreNewLive do
       # IO.inspect(meta, label: "meta")
       # IO.inspect(entry, label: "entry")
       # dest = Path.join("priv/statis/uploads", entry.uuid)
-      dest = Path.join("priv/static/uploads", filename(entry))
-      File.cp!(meta.path, dest)
+      # dest = Path.join("priv/static/uploads", filename(entry))
+      # File.cp!(meta.path, dest)
+      :ok
       # %{image_url: Routes.static_path(socket, "/uploads/#{filename(entry)}")}
     end)
+
     {:ok, store}
   end
 
@@ -70,11 +101,13 @@ defmodule NetCleverWeb.StoreNewLive do
 
     urls =
       for entry <- completed do
-        %{image_url: Routes.static_path(socket, "/uploads/#{filename(entry)}")}
+        # Routes.static_path(socket, "/uploads/#{filename(entry)}")
+        Path.join(s3_url(), filename(entry))
       end
-    store = Map.put(store, "photos", urls)
 
-    case Stores.create_store(store, &create_photos_urls(socket, &1))do
+    store = Map.put(store, "photos_url", urls)
+
+    case Stores.create_store(store, &create_photos_urls(socket, &1)) do
       {:ok, _store} ->
         # create_photos_urls(socket, store)
 
