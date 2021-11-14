@@ -1,0 +1,91 @@
+<div class="row">
+    <%= f = form_for @changeset, "#",
+                id: "new-store-form",
+                phx_submit: "save",
+                phx_change: "validate",
+                class: "col s12" %>
+
+    <div class="row">
+        <div class="input-field col s12">
+            <%= text_input f, :name, class: "validate", phx_debounce: "2000" %>
+            <%= label f, :name, "Nome da Empresa" %>
+            <%= error_tag f, :name %>
+        </div>
+        <div class="input-field col s12">
+            <%= text_input f, :description, class: "validate", phx_debounce: "blur" %>
+            <%= label f, :description, "Descreva seu negocio em poucas palavras" %>
+            <%= error_tag f, :description %>
+        </div>
+
+        <div class="col s12">
+            <%= label f, :category %>
+            <%= select f, :category, NetCleverWeb.StoreNewLive.load_categories,  class: "browser-default" %>
+            <%= error_tag f, :category %>
+        </div>
+
+        <div class="input-field col s12">
+            <%= text_input f, :phone, class: "validate" %>
+            <%= label f, :phone, "Ex: +551999999999" %>
+            <%= error_tag f, :phone %>
+        </div>
+        <div class="input-field col s12">
+            <%= text_input f, :lat, class: "validate" %>
+            <%= label f, :lat, "Latitude" %>
+            <%= error_tag f, :lat %>
+        </div>
+        <div class="input-field col s12">
+            <%= text_input f, :lng, class: "validate" %>
+            <%= label f, :lng, "Longitude" %>
+            <%= error_tag f, :lng %>
+        </div>
+
+        <div class="col s12">
+            <%#= inspect @uploads.photos %>
+            <div class="row">
+                Adicione fotos com o maximo <%= @uploads.photos.max_entries %>
+                (maximo <%= trunc(@uploads.photos.max_file_size / 1_000_000)  %> mb cada)
+            </div>
+            <div class="row" phx-drop-target="<%= @uploads.photos.ref %>">
+                <%= live_file_input @uploads.photos, class: "" %> or drag and drop here
+            </div>
+
+            <div class="row">
+                <%= for {_ref, err} <- @uploads.photos.errors do %>
+                <%= humanize(err) %>
+                <% end %>
+            </div>
+            <div class="row">
+                <%= for entry <- @uploads.photos.entries do %>
+                <div class="row">
+
+                    <div class="col s3">
+                        <%= live_img_preview entry, width: 200  %>
+                    </div>
+                    <div class="col s6">
+                        <%= entry.progress %>%
+                        <div class="progress">
+                            <div class="determinate" style="width: <%= entry.progress %>%"></div>
+                        </div>
+                    </div>
+                    <div class="col s1">
+                        <a href="#" phx-click="cancel" phx-value-ref="<%= entry.ref %>">&times</a>
+                    </div>
+
+                    <div class="col s2">
+                        <%= for err <- upload_errors(@uploads.photos, entry) do %>
+                        <%= humanize(err) %>
+                        <% end %>
+                    </div>
+                </div>
+                <% end %>
+                </ul>
+            </div>
+        </div>
+
+        <button class="btn waves-effect waves-light blue right" type="submit" name="action">
+            Cadastrar
+            <i class="material-icons right">send</i>
+        </button>
+        </form>
+    </div>
+</div>

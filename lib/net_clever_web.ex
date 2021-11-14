@@ -31,7 +31,8 @@ defmodule NetCleverWeb do
     quote do
       use Phoenix.View,
         root: "lib/net_clever_web/templates",
-        namespace: NetCleverWeb
+        namespace: NetCleverWeb,
+        pattern: "**/*"
 
       # Import convenience functions from controllers
       import Phoenix.Controller,

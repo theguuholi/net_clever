@@ -17,6 +17,9 @@ defmodule NetCleverWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    live "/stores/customer_create", StoreNewLive, :index
+    live "/maps", StoreMapsLive, :index
+    # live "/datepicker", DatePickerLive
   end
 
   # Other scopes may use custom stacks.
@@ -48,6 +51,7 @@ defmodule NetCleverWeb.Router do
   scope "/", NetCleverWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
+    live "/users/register", RegisterLive
     get "/users/register", UserRegistrationController, :new
     post "/users/register", UserRegistrationController, :create
     get "/users/log_in", UserSessionController, :new
@@ -60,6 +64,10 @@ defmodule NetCleverWeb.Router do
 
   scope "/", NetCleverWeb do
     pipe_through [:browser, :require_authenticated_user]
+
+    live "/charts", ChartLive, :index
+    live "/stores", StoreLive, :index
+    live "/stores/new", StoreLive, :new_store
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update

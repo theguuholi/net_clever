@@ -4,12 +4,17 @@
     <ul id="nav-mobile" class="right hide-on-med-and-down">
       <%= if @current_user do %>
       <li><%= @current_user.email %></li>
+      <li><%= link "Lojas", to: Routes.store_path(@conn, :index) %></li>
       <li><%= link "Settings", to: Routes.user_settings_path(@conn, :edit) %></li>
       <li><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %></li>
       <% else %>
-      <li><%= link "Register", to: Routes.user_registration_path(@conn, :new) %></li>
-      <li><%= link "Log in", to: Routes.user_session_path(@conn, :new) %></li>
-      <li><a href=""><i class="material-icons">map</i></a></li>
+      <%#= link "Register", to: Routes.user_registration_path(@conn, :new) %>
+      <%#= link "Log in", to: Routes.user_session_path(@conn, :new) %>
+      <li>
+        <%= link to: Routes.store_maps_path(@conn, :index) do %>
+        <i class="material-icons">map</i>
+        <% end %>
+      </li>
       <% end %>
     </ul>
   </div>

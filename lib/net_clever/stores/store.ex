@@ -1,17 +1,24 @@
 defmodule NetClever.Stores.Store do
   use Ecto.Schema
   import Ecto.Changeset
+  alias NetClever.Stores.Photo
 
+  @category_types ~w/comercio alimenticio acougue vestuario marketing estetica/a
+  @required_fields [:name, :description, :phone, :category]
+  @optional_fields [:photos_url, :active, :lat, :lng]
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
+  @derive {Jason.Encoder, only: [:id, :name, :description, :lat, :lng]}
   schema "stores" do
     field :description, :string
     field :lat, :float
     field :lng, :float
     field :name, :string
     field :phone, :string
+    field :active, :boolean, default: false
     field :photos_url, {:array, :string}
     field :user_id, :binary_id
+    field :category, Ecto.Enum, values: @category_types, default: :comercio
 
     timestamps()
   end
@@ -19,7 +26,7 @@ defmodule NetClever.Stores.Store do
   @doc false
   def changeset(store, attrs) do
     store
-    |> cast(attrs, [:name, :description, :lat, :lng, :phone, :photos_url])
-    |> validate_required([:name, :description, :lat, :lng, :phone, :photos_url])
+    |> cast(attrs, @optional_fields ++ @required_fields)
+    |> validate_required(@required_fields, message: "preencher o campo acima")
   end
 end

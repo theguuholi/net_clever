@@ -8,96 +8,106 @@ defmodule NetClever.Stores do
 
   alias NetClever.Stores.Store
 
-  @doc """
-  Returns the list of stores.
+  def get_categories, do: Ecto.Enum.values(Store, :category)
 
-  ## Examples
+  def list_stores_with_filters(criteria) when is_list(criteria) do
+    query = from(s in Store)
 
-      iex> list_stores()
-      [%Store{}, ...]
+    criteria
+    |> Enum.reduce(query, fn
+      {:paginate, %{page: page, per_page: per_page}}, query ->
+        from q in query, offset: ^((page - 1) * per_page), limit: ^per_page
 
-  """
+      {:sort, %{sort_by: sort_by, sort_order: sort_order}}, query ->
+        from q in query, order_by: [{^sort_order, ^sort_by}]
+
+      {:category, category}, query ->
+        from q in query, where: q.category == ^category
+
+      {:name, name}, query ->
+        name = "#{name}%"
+        from q in query, where: ilike(q.name, ^name)
+    end)
+    |> Repo.all()
+  end
+
   def list_stores do
     Repo.all(Store)
   end
 
-  @doc """
-  Gets a single store.
+  def get_active_store_numbers(active) do
+    Store
+    |> where([s], s.active == ^active)
+    |> select([s], count(s.id))
+    |> Repo.all()
+    |> hd()
+  end
 
-  Raises `Ecto.NoResultsError` if the Store does not exist.
+  def list_suggest_stores_by_name(name) do
+    name = "#{name}%"
 
-  ## Examples
+    Store
+    |> where([s], ilike(s.name, ^name))
+    |> order_by([{:desc, :inserted_at}])
+    |> select([s], s.name)
+    |> Repo.all()
+  end
 
-      iex> get_store!(123)
-      %Store{}
+  def list_stores(page: page, per_page: per_page) do
+    Store
+    |> offset(^((page - 1) * per_page))
+    |> limit(^per_page)
+    |> where([s], s.active == true)
+    |> order_by([{:desc, :inserted_at}])
+    |> Repo.all()
+  end
 
-      iex> get_store!(456)
-      ** (Ecto.NoResultsError)
-
-  """
   def get_store!(id), do: Repo.get!(Store, id)
+  def get_store(id), do: Repo.get(Store, id)
 
-  @doc """
-  Creates a store.
-
-  ## Examples
-
-      iex> create_store(%{field: value})
-      {:ok, %Store{}}
-
-      iex> create_store(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_store(attrs \\ %{}) do
+  def create_store(attrs \\ %{}, fun) do
     %Store{}
     |> Store.changeset(attrs)
     |> Repo.insert()
+    |> after_save(fun)
+    |> broadcast(:store_created)
   end
 
-  @doc """
-  Updates a store.
+  defp after_save({:ok, store}, fun) do
+    {:ok, _store} = fun.(store)
+  end
 
-  ## Examples
+  defp after_save(error, _) do
+    error
+  end
 
-      iex> update_store(store, %{field: new_value})
-      {:ok, %Store{}}
+  def subscribe do
+    Phoenix.PubSub.subscribe(NetClever.PubSub, "stores")
+  end
 
-      iex> update_store(store, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+  def broadcast({:error, _} = error, _event), do: error
 
-  """
+  def broadcast({:ok, store}, event) do
+    Phoenix.PubSub.broadcast(NetClever.PubSub, "stores", {event, store})
+    {:ok, store}
+  end
+
+  def change_status(id) do
+    store = get_store!(id)
+    update_store(store, %{active: !store.active})
+  end
+
   def update_store(%Store{} = store, attrs) do
     store
     |> Store.changeset(attrs)
     |> Repo.update()
+    |> broadcast(:store_updated)
   end
 
-  @doc """
-  Deletes a store.
-
-  ## Examples
-
-      iex> delete_store(store)
-      {:ok, %Store{}}
-
-      iex> delete_store(store)
-      {:error, %Ecto.Changeset{}}
-
-  """
   def delete_store(%Store{} = store) do
     Repo.delete(store)
   end
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking store changes.
-
-  ## Examples
-
-      iex> change_store(store)
-      %Ecto.Changeset{data: %Store{}}
-
-  """
   def change_store(%Store{} = store, attrs \\ %{}) do
     Store.changeset(store, attrs)
   end

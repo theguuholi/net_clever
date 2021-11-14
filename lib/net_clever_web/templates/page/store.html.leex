@@ -1,0 +1,54 @@
+<div class="col s12 m6" id="<%= @id %>">
+    <div class="card">
+        <div class="card-image">
+            <%= if @store.photos_url != nil and @store.photos_url != [] do %>
+            <img src="<%= Routes.static_path(@socket, hd(@store.photos_url)) %>">
+            <% else %>
+            <img src="<%= Routes.static_path(@socket, "/images/no-image.png") %>">
+            <% end %>
+            <a class="btn-floating activator halfway-fab waves-effect waves-light  blue">
+                <i class="material-icons">info_outline</i>
+            </a>
+        </div>
+
+        <div class="card-content">
+            <span class="card-title activator grey-text text-darken-4"><%= @store.name %></span>
+            <p><%= @store.description %></p>
+        </div>
+        <div class="card-reveal">
+            <span class="card-title grey-text text-darken-4"><%= @store.name %><i
+                    class="material-icons right">close</i></span>
+            <p>
+                <ul class="collection ">
+                    <li class="collection-item">
+                        Categoria: <strong><%= @store.category %></strong>
+                    </li>
+                    <li class="collection-item">
+                        <div>Whatsapp: <strong><%= @store.phone %></strong>
+                            <a href="https://api.whatsapp.com/send?phone=<%= @store.phone %>&text=Ola%20conheci%20seu%20negocio%20pela%20igreja%20lagoinha,%20pode%20me%20passar%20mais%20informa%C3%A7%C3%B5es?"
+                                target="_blank" class="secondary-content">
+                                <i class="material-icons">phone</i>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="collection-item">
+                        <div>Ver no mapa:
+                            <%= live_redirect to: Routes.store_maps_path(@socket, :index, selected_store: @store), class: "secondary-content" do %>
+                            <i class="material-icons">map</i>
+                            <% end %>
+                        </div>
+                    </li>
+                    <li class="collection-item">
+                        <div>Ir ao local:
+                            <a href="https://maps.google.com/?q=<%= @store.lat %>,<%= @store.lng %>"
+                                class="secondary-content" target="_blank">
+                                <i class="material-icons">send</i>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </p>
+        </div>
+    </div>
+
+</div>
