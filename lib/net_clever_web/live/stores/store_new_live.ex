@@ -101,8 +101,8 @@ defmodule NetCleverWeb.StoreNewLive do
 
     urls =
       for entry <- completed do
-        # Routes.static_path(socket, "/uploads/#{filename(entry)}")
-        Path.join(s3_url(), filename(entry))
+        Routes.static_path(socket, "/uploads/#{filename(entry)}")
+        # Path.join(s3_url(), filename(entry))
       end
 
     store = Map.put(store, "photos_url", urls)

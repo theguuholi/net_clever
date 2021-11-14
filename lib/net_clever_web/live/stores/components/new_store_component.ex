@@ -5,5 +5,4 @@ defmodule NetCleverWeb.Stores.NewStoreComponent do
   def render(assigns) do
     Phoenix.View.render(NetCleverWeb.StoreView, "new-store.html", assigns)
   end
-
 end

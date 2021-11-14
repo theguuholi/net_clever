@@ -37,6 +37,7 @@ defmodule NetClever.StoresTest do
       store = store_fixture()
       assert Stores.list_stores() == [store]
     end
+
     test "list_suggest_stores_by_name/1 returns all stores" do
       store_fixture()
       assert Stores.list_suggest_stores_by_name("so") == ["some name"]

@@ -18,5 +18,4 @@ defmodule NetCleverWeb.Stores.InfoComponent do
   def render(assigns) do
     Phoenix.View.render(NetCleverWeb.StoreView, "info.html", assigns)
   end
-
 end

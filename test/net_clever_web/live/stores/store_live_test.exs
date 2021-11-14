@@ -29,7 +29,6 @@ defmodule NetCleverWeb.Stores.StoreLiveTest do
     end
 
     test "test create store", %{conn: conn} do
-
       {:ok, view, _html} = live(conn, "/stores")
       {:ok, store} = NetClever.StoresFixtures.create_store()
 

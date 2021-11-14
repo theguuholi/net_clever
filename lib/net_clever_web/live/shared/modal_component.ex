@@ -5,5 +5,4 @@ defmodule NetCleverWeb.Shared.ModalComponent do
   def render(assigns) do
     Phoenix.View.render(NetCleverWeb.SharedView, "modal.html", assigns)
   end
-
 end

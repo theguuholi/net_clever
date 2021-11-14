@@ -22,6 +22,18 @@ defmodule NetCleverWeb.Stores.StoreNewLiveTest do
       phone: "5519974039477"
     }
 
+    upload =
+      file_input(index_live, "#new-store-form", :photos, [
+        %{
+          last_modified: 1_594_171_879_000,
+          name: "text.jpeg",
+          content: " ",
+          type: "image/jpeg",
+          size: 1_396_009
+        }
+      ])
+    assert render_upload(upload, "text.txt") =~ "100%"
+
     {:ok, _, html} =
       index_live
       |> form("#new-store-form", store: store)

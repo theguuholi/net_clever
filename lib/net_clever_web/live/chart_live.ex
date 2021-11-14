@@ -13,7 +13,7 @@ defmodule NetCleverWeb.ChartLive do
      )}
   end
 
-  defp get_reading() do
+  defp get_reading do
     Enum.random(70..180)
   end
 
@@ -47,7 +47,7 @@ defmodule NetCleverWeb.ChartLive do
   end
 
   def handle_event("update", %{"key" => key}, socket) do
-    IO.inspect key
+    # IO.inspect(key)
     {:noreply, socket}
   end
 
